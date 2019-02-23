@@ -1,0 +1,24 @@
+{
+  "name": "simba",
+  "version": "0.0.0",
+  "author": "Ongki Herlambang",
+  "description": "Server for a line messenger bot",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "express": "~4.16.0",
+    "linebot": "^1.4.1",
+    "mongoose": "^5.4.14",
+    "morgan": "~1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
