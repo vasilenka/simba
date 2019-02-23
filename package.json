@@ -12,11 +12,14 @@
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
+    "dayjs": "^1.8.6",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "linebot": "^1.4.1",
     "mongoose": "^5.4.14",
-    "morgan": "~1.9.0"
+    "mongoose-timestamp": "^0.6.0",
+    "morgan": "~1.9.0",
+    "sharp": "^0.21.3"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

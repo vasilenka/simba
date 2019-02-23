@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const timestamps = require('mongoose-timestamp')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -11,6 +12,10 @@ const userSchema = new mongoose.Schema({
   },
   profileUrl: {
     type: String,
+  },
+  valid: {
+    type: Boolean,
+    default: false,
   },
   active: {
     type: Boolean,
@@ -34,4 +39,5 @@ const userSchema = new mongoose.Schema({
   }
 })
 
+userSchema.plugin(timestamps)
 module.exports = mongoose.model('User', userSchema);

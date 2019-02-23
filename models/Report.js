@@ -1,11 +1,8 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Schema.Types.ObjectId
+const timestamps = require('mongoose-timestamp')
 
 const reportSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
   reporter: {
     type: ObjectId,
     required: true,
@@ -28,6 +25,9 @@ const reportSchema = new mongoose.Schema({
     default: null,
     ref: 'User',
   },
+  photos: [{
+    type: String,
+  }],
   status: {
     type: String,
     enum: [
@@ -37,15 +37,8 @@ const reportSchema = new mongoose.Schema({
     ],
     default: 'active',
     lowercase: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  updatedAt: {
-    type: Date,
-    default: null,
   }
 })
 
+reportSchema.plugin(timestamps)
 module.exports = mongoose.model('Report', reportSchema)

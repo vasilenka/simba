@@ -1,4 +1,7 @@
 module.exports = event => {
+
+  console.log('POSTBACK', event)
+
   switch (event.postback.data) {
     case 'location':
       event.reply()
