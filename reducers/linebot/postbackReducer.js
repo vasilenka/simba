@@ -1,15 +1,13 @@
-module.exports = event => {
+const reportDonePostback = require('./postback/reportDonePostback')
+const reportCancelPostback = require('./postback/reportCancelPostback')
 
-  console.log('POSTBACK', event)
+module.exports = async (event, bot) => {
+  let data = JSON.parse(event.postback.data)
 
-  switch (event.postback.data) {
-    case 'location':
-      event.reply()
-      break;
+  switch (data.action) {
 
-    case 'photo':
-      event.reply()
-      break;
+    case 'reportDone': return reportDonePostback(data, event, bot)
+    case 'reportCancel': return reportCancelPostback(data, event, bot)
 
     default:
       break;

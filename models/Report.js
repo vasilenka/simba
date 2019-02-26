@@ -28,12 +28,16 @@ const reportSchema = new mongoose.Schema({
   photos: [{
     type: String,
   }],
+  keterangan: [{
+    type: String,
+  }],
   status: {
     type: String,
     enum: [
       'active',
       'done',
       'invalid',
+      'cancelled',
     ],
     default: 'active',
     lowercase: true,
