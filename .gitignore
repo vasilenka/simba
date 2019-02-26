@@ -2,6 +2,8 @@
 dev.js
 public/images/reports/*
 
+.DS_Store
+
 # Logs
 logs
 *.log
