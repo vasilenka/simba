@@ -3,11 +3,15 @@ module.exports = (title, address, url) => ({
   "header": {
     "type": "box",
     "layout": "horizontal",
+    "spacing": "none",
+    "margin": "none",
     "contents": [
       {
         "type": "text",
         "text": title,
-        "size": "sm",
+        "margin": "none",
+        "size": "md",
+        "gravity": "top",
         "weight": "bold",
         "color": "#484848"
       }
@@ -16,12 +20,13 @@ module.exports = (title, address, url) => ({
   "body": {
     "type": "box",
     "layout": "horizontal",
-    "spacing": "md",
+    "spacing": "none",
+    "margin": "none",
     "contents": [
       {
         "type": "text",
         "text": address,
-        "size": "xl",
+        "size": "lg",
         "align": "start",
         "color": "#484848",
         "wrap": true
@@ -36,7 +41,7 @@ module.exports = (title, address, url) => ({
         "type": "button",
         "action": {
           "type": "uri",
-          "label": "More",
+          "label": "Detail laporan",
           "uri": url
         },
         "style": "link",

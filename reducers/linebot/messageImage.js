@@ -56,8 +56,8 @@ module.exports = (event, bot) => {
               }
             }
 
+            reply.quickReply.items.push(cameraAction('Foto'))
             reply.quickReply.items.push(locationAction())
-            reply.quickReply.items.push(cameraAction('Foto lagi'))
             if(updatedReport.address && updatedReport.longitude && updatedReport.latitude) {
               reply.quickReply.items.push(selesaiAction('Selesai', updatedReport._id))
             }

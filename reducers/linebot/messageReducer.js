@@ -18,8 +18,6 @@ module.exports = (event, bot) => {
         case 'Me': return require('./text/me')(event)
         case 'Location': return require('./text/location')(event)
         case 'Lapor': return require('./text/lapor')(event)
-        case 'Laporan selesai': return require('./text/laporanSelesai')(event, bot)
-        // case 'Batalkan laporan': return require('./text/laporanBatal')(event)
         case 'Selesai': return
         case 'Batalkan laporan': return
 

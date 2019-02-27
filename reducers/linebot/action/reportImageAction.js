@@ -6,7 +6,7 @@ module.exports = url => ({
     "url": url,
     "gravity": "center",
     "size": "full",
-    "aspectRatio": "3:4",
+    "aspectRatio": "1:1",
     "aspectMode": "cover",
     "action": {
       "type": "uri",

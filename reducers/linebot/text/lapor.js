@@ -8,6 +8,7 @@ const cameraAction = require('./../action/cameraAction')
 const locationAction = require('./../action/locationAction')
 const selesaiAction = require('./../action/selesaiAction')
 const batalAction = require('./../action/batalAction')
+const reportKebakaranAction = require('./../action/reportKebakaran')
 
 module.exports = async event => {
   event.source.profile()
@@ -93,48 +94,11 @@ module.exports = async event => {
         report.save()
           .then(report => {
 
-            let replyNewReport = {
-              "type": "flex",
-              "altText": "Laporan Baru",
-              "contents": {
-                "type": "bubble",
-                "direction": "ltr",
-                "header": {
-                  "type": "box",
-                  "layout": "vertical",
-                  "contents": [
-                    {
-                      "type": "text",
-                      "text": "Laporkan Kebakaran",
-                      "margin": "default",
-                      "size": "xl",
-                      "align": "start",
-                      "weight": "bold",
-                      "wrap": true
-                    }
-                  ]
-                },
-                "body": {
-                  "type": "box",
-                  "layout": "vertical",
-                  "contents": [
-                    {
-                      "type": "text",
-                      "text": "Lengkapi data yang dibutuhkan berikut:",
-                      "align": "start",
-                      "wrap": true
-                    }
-                  ]
-                }
-              },
-              "quickReply": {
-                "items": []
-              },
-            }
+            let replyNewReport = reportKebakaranAction()
 
             replyNewReport.quickReply.items.push(cameraAction())
             replyNewReport.quickReply.items.push(locationAction())
-            replyNewReport.quickReply.items.push(selesaiAction('Selesai', report._id))
+            // replyNewReport.quickReply.items.push(selesaiAction('Selesai', report._id))
             replyNewReport.quickReply.items.push(batalAction('Batalkan laporan', report._id))
 
             return event.reply(replyNewReport)
