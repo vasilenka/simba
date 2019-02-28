@@ -1,5 +1,5 @@
-const User = require('./../../../models/User')
-const Report = require('./../../../models/Report')
+const User = require('./../../models/User')
+const Report = require('./../../models/Report')
 
 const confirmAction = require('./../action/reportConfirmAction')
 const imageAction = require('./../action/reportImageAction')

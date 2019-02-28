@@ -1,12 +1,12 @@
 const Report = require('./../../models/Report')
 
-const checkUser = require('./../../helper/checkUser')
-const exceedLimit = require('./../../helper/exceedLimit')
+const checkUser = require('../../helper/checkUser')
+const exceedLimit = require('../../helper/exceedLimit')
 
-const cameraAction = require('./action/cameraAction')
-const selesaiAction = require('./action/selesaiAction')
-const batalAction = require('./action/batalAction')
-
+const cameraAction = require('../action/cameraAction')
+const selesaiAction = require('../action/selesaiAction')
+const batalAction = require('../action/batalAction')
+const reportStillActive = require('../action/reportStillActive')
 
 module.exports = async (event, bot) => {
   event.source.profile()
@@ -18,7 +18,7 @@ module.exports = async (event, bot) => {
 
         let report
         try {
-          report = await Report.findOne({ reporter: user._id, status: 'active' }, {}, {sort : { createdAt: -1 }})
+          report = await Report.findOne({ reporter: user._id, status: 'active' }, {}, {sort : { updatedAt: -1 }})
         } catch (err) {
           report = null
         }
@@ -27,7 +27,7 @@ module.exports = async (event, bot) => {
           return event.reply(['Anda tidak memiliki laporan yang sedang aktif', 'Kirim \'Lapor\' untuk membuat laporan baru'])
         }
 
-        if(!exceedLimit(report.createdAt)) {
+        if(!exceedLimit(report.updatedAt)) {
 
           report.address = event.message.address
           report.latitude = event.message.latitude
@@ -36,13 +36,7 @@ module.exports = async (event, bot) => {
           report.save()
             .then(report => {
 
-              let reply = {
-                "type": "text",
-                "text": "Pilih salah satu aksi berikut",
-                "quickReply": {
-                  "items": []
-                }
-              }
+              let reply = reportStillActive("Pilih salah satu aksi berikut")
 
               reply.quickReply.items.push(cameraAction())
               if(report.photos.length > 0 && report.address && report.longitude && report.latitude) {
@@ -50,7 +44,11 @@ module.exports = async (event, bot) => {
               }
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
 
-              return event.reply(['Lokasi berhasil ditambahkan', reply])
+              return event.reply([
+                "Lokasi berhasil ditambahkan",
+                "Balas pesan untuk menambahkan keterangan, atau",
+                reply
+              ])
 
             })
             .catch(err => {

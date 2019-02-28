@@ -3,9 +3,6 @@ const dayjs = require('dayjs')
 const Report = require('./../../../models/Report')
 const User = require('./../../../models/User')
 
-const exceedLimit = require('./../../../helper/exceedLimit')
-const checkUser = require('./../../../helper/checkUser')
-
 module.exports = event => {
   event.source.profile().then(function (profile) {
     return event.reply([
@@ -13,6 +10,3 @@ module.exports = event => {
     ])
   })
 }
-
-// profile.userId
-// profile.pictureUrl

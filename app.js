@@ -13,7 +13,7 @@ require('./models/__index')
 
 // Linebot
 app.post('/linewebhook', linebotParser)
-require('./reducers/linebot/__index')(bot)
+require('./linebot/__index')(bot)
 
 app.use(cors())
 app.use(logger('dev'))

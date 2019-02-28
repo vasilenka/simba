@@ -2,6 +2,6 @@ module.exports = () => ({
   "type": "action",
   "action": {
     "type": "location",
-    "label": "Lokasi",
+    "label": "Share lokasi",
   }
 })

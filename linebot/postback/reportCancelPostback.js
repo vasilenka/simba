@@ -1,5 +1,5 @@
-const User = require('./../../../models/User')
-const Report = require('./../../../models/Report')
+const User = require('./../../models/User')
+const Report = require('./../../models/Report')
 
 module.exports = async (data, event, bot) => {
 
