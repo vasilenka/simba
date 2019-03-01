@@ -31,7 +31,7 @@ module.exports = async (event, bot) => {
 
           report.address = event.message.address
           report.latitude = event.message.latitude
-          report.longitude = event.message.latitude
+          report.longitude = event.message.longitude
 
           report.save()
             .then(report => {

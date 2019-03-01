@@ -15,7 +15,13 @@ require('./models/__index')
 app.post('/linewebhook', linebotParser)
 require('./linebot/__index')(bot)
 
-app.use(cors())
+const corsOptions = {
+  origin: 'http://localhost:5000',
+  optionsSuccessStatus: 200,
+  credentials: true
+}
+
+app.use(cors(corsOptions))
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))

@@ -5,9 +5,11 @@ const confirmAction = require('./../action/reportConfirmAction')
 const imageAction = require('./../action/reportImageAction')
 const headerAction = require('./../action/reportHeaderAction')
 
+const io = require('./../../services/socketClient')
+
 module.exports = async (data, event, bot) => {
 
-  let users = await User.find()
+  let users = await User.find({ role: { $ne: "reporter" } })
   let usersId = users.map(user => user.lineId)
 
   let id = data.reportId
@@ -44,7 +46,9 @@ module.exports = async (data, event, bot) => {
     let reportConfirm = confirmAction("Apakah benar terjadi kebakaran?", report._id)
     carousel.contents.contents.push(reportConfirm)
 
-    event.reply(["Terima kasih, laporan anda akan segera kami proses"])
+    event.reply(["Terima kasih, laporan anda akan segera kami proses", carousel])
+
+    io.emit('new_report', await User.populate(report, { path: 'reporter' }))
     return bot.push(usersId, [carousel])
 
   }

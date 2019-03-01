@@ -19,7 +19,11 @@
     "mongoose": "^5.4.14",
     "mongoose-timestamp": "^0.6.0",
     "morgan": "~1.9.0",
-    "sharp": "^0.21.3"
+    "sharp": "^0.21.3",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
+    "sockette": "^2.0.5",
+    "sockjs": "^0.3.19"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"
