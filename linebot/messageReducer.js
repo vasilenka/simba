@@ -16,6 +16,11 @@ module.exports = (event, bot) => {
         case 'me': return require('./messages/text/me')(event)
         case 'lapor': return require('./messages/text/lapor')(event)
         case 'help': return require('./messages/text/help')(event)
+        case 'saya volunteer': return require('./messages/text/requestVolunteer')(event, bot)
+        case 'saya fireman': return require('./messages/text/requestFireman')(event, bot)
+        case 'saya dispatcher': return require('./messages/text/requestDispatcher')(event, bot)
+        case 'help': return require('./messages/text/help')(event)
+        case 'help': return require('./messages/text/help')(event)
         case 'selesai': return
         case 'batalkan laporan': return
 

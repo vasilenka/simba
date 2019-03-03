@@ -20,11 +20,6 @@ const reportSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  dispatcher: {
-    type: ObjectId,
-    default: null,
-    ref: 'User',
-  },
   photos: [{
     type: String,
   }],
@@ -38,6 +33,7 @@ const reportSchema = new mongoose.Schema({
       'done',
       'invalid',
       'cancelled',
+      'mission',
     ],
     default: 'active',
     lowercase: true,

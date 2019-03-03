@@ -1,12 +1,22 @@
-const dayjs = require('dayjs')
-
-const Report = require('./../../../models/Report')
-const User = require('./../../../models/User')
+const checkUser = require('./../../../helper/checkUser')
 
 module.exports = event => {
-  event.source.profile().then(function (profile) {
-    return event.reply([
-      `Halo, ${profile.displayName} 👋🏻`
-    ])
-  })
+  event.source.profile()
+    .then(async incomingUser => {
+
+      let user = await checkUser(incomingUser)
+
+      if(!user) {
+        return Promise.reject()
+      }
+
+      return event.reply([
+        `Halo, ${user.name} 👋🏻, kamu adalah seorang ${user.role}`
+      ])
+
+    })
+    .catch(err => {
+      console.log(err)
+      return event.reply(["Maaf, sedang ada gangguan. Silahkan ulangi perintahmu"])
+    })
 }

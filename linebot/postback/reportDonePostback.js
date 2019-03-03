@@ -35,21 +35,34 @@ module.exports = async (data, event, bot) => {
       }
     }
 
+    let carouselPush = {
+      "type": "flex",
+      "altText": "Flex Message",
+      "contents": {
+        "type": "carousel",
+        "contents": []
+      }
+    }
+
     let reportUrl = `https://32a5f7ba.ngrok.io/reports/${report._id}`;
     let address = report.address
     let header = headerAction("KEBAKARAN 🔥", address, reportUrl)
     carousel.contents.contents.push(header)
+    carouselPush.contents.contents.push(header)
 
     let photosUrl = report.photos.map(photo => `https://32a5f7ba.ngrok.io${photo}`)
-    photosUrl.map(photo => carousel.contents.contents.push(imageAction(photo)))
+    photosUrl.map(photo => {
+      carousel.contents.contents.push(imageAction(photo))
+      carouselPush.contents.contents.push(imageAction(photo))
+    })
 
     let reportConfirm = confirmAction("Apakah benar terjadi kebakaran?", report._id)
-    carousel.contents.contents.push(reportConfirm)
+    carouselPush.contents.contents.push(reportConfirm)
 
     event.reply(["Terima kasih, laporan anda akan segera kami proses", carousel])
 
     io.emit('new_report', await User.populate(report, { path: 'reporter' }))
-    return bot.push(usersId, [carousel])
+    return bot.push(usersId, [carouselPush])
 
   }
 

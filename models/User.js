@@ -13,10 +13,6 @@ const userSchema = new mongoose.Schema({
   profileUrl: {
     type: String,
   },
-  valid: {
-    type: Boolean,
-    default: false,
-  },
   active: {
     type: Boolean,
     default: true,
@@ -24,6 +20,31 @@ const userSchema = new mongoose.Schema({
   lineId: {
     type: String,
     required: true,
+  },
+  requestRole: {
+    role: {
+      type: String,
+      enum: [
+        null,
+        'admin',
+        'dispatcher',
+        'fireman',
+        'volunteer',
+      ],
+      default: null,
+      lowercase: true,
+    },
+    status: {
+      type: String,
+      enum: [
+        null,
+        'pending',
+        'accepted',
+        'declined',
+      ],
+      default: null,
+      lowercase: true,
+    }
   },
   role: {
     type: String,
