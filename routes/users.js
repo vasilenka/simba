@@ -41,6 +41,7 @@ router.get('/:id', (req, res) => {
 router.patch('/:id', async (req, res) => {
 
   let id = req.params.id
+  console.log(req.body)
   let body = pick(req.body, ['requestRole', 'role'])
 
   if(!ObjectId.isValid(id)) {
@@ -57,6 +58,8 @@ router.patch('/:id', async (req, res) => {
   if(!user) {
     return res.status(404).json()
   }
+
+  // console.log('REQUEST_ROLE: ', body.requestRole)
 
   if(body.requestRole.role !== user.role) {
     if(body.requestRole.status === 'accepted') {

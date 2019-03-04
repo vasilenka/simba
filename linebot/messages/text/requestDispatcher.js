@@ -1,5 +1,7 @@
 const checkUser = require('./../../../helper/checkUser')
 
+const io = require('./../../../services/socketClient')
+
 module.exports = async (event, bot) => {
   event.source.profile()
     .then(async incomingUser => {
@@ -14,6 +16,7 @@ module.exports = async (event, bot) => {
 
         if(newUser) {
 
+          io.emit('new_request', newUser)
           return event.reply(["Permintaanmu akan segera kami proses"])
 
         } else {

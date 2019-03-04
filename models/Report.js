@@ -26,6 +26,10 @@ const reportSchema = new mongoose.Schema({
   keterangan: [{
     type: String,
   }],
+  dispatcher: {
+    type: ObjectId,
+    ref: 'User',
+  },
   status: {
     type: String,
     enum: [
@@ -34,6 +38,7 @@ const reportSchema = new mongoose.Schema({
       'invalid',
       'cancelled',
       'mission',
+      'accomplished',
     ],
     default: 'active',
     lowercase: true,

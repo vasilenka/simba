@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const pick = require('lodash.pick')
 
 const Mission = require('./../models/Mission')
 
@@ -17,6 +18,8 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+
+  let body = pick(req.body, [''])
 
   Mission.find()
     .sort({ createdAt: -1 })

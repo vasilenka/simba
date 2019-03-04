@@ -20,6 +20,10 @@ const socket = io => {
       io.emit('new_report', report)
     })
 
+    client.on('new_request', (req) => {
+      io.emit('new_request', req)
+    })
+
   })
 
 }

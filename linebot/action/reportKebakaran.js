@@ -1,3 +1,5 @@
+const config = require('./../../config')
+
 module.exports = () => ({
   "type": "flex",
   "altText": "Flex Message",
@@ -15,7 +17,7 @@ module.exports = () => ({
     },
     "hero": {
       "type": "image",
-      "url": "https://32a5f7ba.ngrok.io/images/icons/lapor.png",
+      "url": `${config.url}/images/icons/lapor.png`,
       "size": "full",
       "aspectRatio": "3:1",
       "aspectMode": "fit",

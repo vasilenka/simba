@@ -18,6 +18,7 @@
     "linebot": "^1.4.1",
     "lodash.isboolean": "^3.0.3",
     "lodash.pick": "^4.4.0",
+    "lodash.remove": "^4.7.0",
     "mongoose": "^5.4.14",
     "mongoose-timestamp": "^0.6.0",
     "morgan": "~1.9.0",

@@ -1,9 +1,13 @@
+const remove = require('lodash.remove')
+
 const User = require('./../../models/User')
 const Report = require('./../../models/Report')
 
 const confirmAction = require('./../action/reportConfirmAction')
 const imageAction = require('./../action/reportImageAction')
 const headerAction = require('./../action/reportHeaderAction')
+
+const config = require('./../../config')
 
 const io = require('./../../services/socketClient')
 
@@ -44,13 +48,13 @@ module.exports = async (data, event, bot) => {
       }
     }
 
-    let reportUrl = `https://32a5f7ba.ngrok.io/reports/${report._id}`;
+    let reportUrl = `${config.url}/reports/${report._id}`;
     let address = report.address
     let header = headerAction("KEBAKARAN 🔥", address, reportUrl)
     carousel.contents.contents.push(header)
     carouselPush.contents.contents.push(header)
 
-    let photosUrl = report.photos.map(photo => `https://32a5f7ba.ngrok.io${photo}`)
+    let photosUrl = report.photos.map(photo => `${config.url}${photo}`)
     photosUrl.map(photo => {
       carousel.contents.contents.push(imageAction(photo))
       carouselPush.contents.contents.push(imageAction(photo))
@@ -62,6 +66,7 @@ module.exports = async (data, event, bot) => {
     event.reply(["Terima kasih, laporan anda akan segera kami proses", carousel])
 
     io.emit('new_report', await User.populate(report, { path: 'reporter' }))
+    usersId = remove(usersId, [report.reporter])
     return bot.push(usersId, [carouselPush])
 
   }
