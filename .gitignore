@@ -1,7 +1,7 @@
 # Project Docs
 dev.js
 public/images/reports/*
-
+.env
 .DS_Store
 
 # Logs
