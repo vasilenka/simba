@@ -34,35 +34,34 @@ module.exports = async event => {
 
             if(noPhoto && noLocation) {
 
-              let reply = reportStillActive("Kirim foto kebakaran dan share lokasi kejadian untuk melengkapi laporanmu")
+              let reply = reportStillActive("Kamu masih memiliki laporan aktif. Kirim foto & lokasi kebakaran untuk melengkapi laporanmu")
               reply.quickReply.items.push(cameraAction())
               reply.quickReply.items.push(locationAction())
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
-              return event.reply(["Kamu masih memiliki laporan yang sedang aktif", reply])
+              return event.reply([reply])
 
             } else if (noPhoto && !noLocation) {
 
-              let reply = reportStillActive("Kirim foto kebakaran untuk melengkapi laporanmu")
+              let reply = reportStillActive("Kamu masih memiliki laporan aktif. Lengkapi foto kebakaran")
               reply.quickReply.items.push(cameraAction())
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
-              return event.reply(["Kamu masih memiliki laporan yang sedang aktif", reply])
+              return event.reply([reply])
 
             } else if (!noPhoto && noLocation) {
 
-              let reply = reportStillActive("Share lokasi kejadian kebakaran untuk melengkapi laporanmu")
+              let reply = reportStillActive("Kamu masih memiliki laporan aktif. Share lokasi kebakaran")
               reply.quickReply.items.push(locationAction())
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
-              return event.reply(["Kamu masih memiliki laporan yang sedang aktif", reply])
+              return event.reply([reply])
 
             } else {
 
-              let reply = reportStillActive("Pilih salah satu aksi berikut")
+              let reply = reportStillActive("Semua data yang dibutuhkan sudah lengkap. Pilih salah satu aksi berikut")
               reply.quickReply.items.push(cameraAction())
-              reply.quickReply.items.push(selesaiAction('Selesai', report._id))
+              reply.quickReply.items.push(selesaiAction('Kirim laporan', report._id))
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
               return event.reply([
                 "Kamu masih memiliki laporan yang sedang aktif",
-                "Data yang dibutuhkan untuk membuat laporan sudah lengkap",
                 reply
               ])
 

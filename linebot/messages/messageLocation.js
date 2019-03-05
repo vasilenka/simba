@@ -24,7 +24,7 @@ module.exports = async (event, bot) => {
         }
 
         if(!report) {
-          return event.reply(['Anda tidak memiliki laporan yang sedang aktif', 'Kirim \'Lapor\' untuk membuat laporan baru'])
+          return event.reply(['Anda tidak memiliki laporan yang sedang aktif. Kirim \'Lapor\' untuk membuat laporan baru'])
         }
 
         if(!exceedLimit(report.updatedAt)) {
@@ -36,29 +36,28 @@ module.exports = async (event, bot) => {
           report.save()
             .then(report => {
 
-              let reply = reportStillActive("Pilih salah satu aksi berikut")
+              let reply = reportStillActive("Balas pesan untuk menambahkan keterangan, atau pilih salah satu aksi berikut")
 
               reply.quickReply.items.push(cameraAction())
               if(report.photos.length > 0 && report.address && report.longitude && report.latitude) {
-                reply.quickReply.items.push(selesaiAction('Selesai', report._id))
+                reply.quickReply.items.push(selesaiAction('Kirim laporan', report._id))
               }
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
 
               return event.reply([
-                "Lokasi berhasil ditambahkan",
-                "Balas pesan untuk menambahkan keterangan, atau",
+                "✅ Lokasi berhasil ditambahkan",
                 reply
               ])
 
             })
             .catch(err => {
               console.log(err)
-              return event.reply(['Maaf, sedang ada gangguan', 'Silahkan ulangi pesanmu'])
+              return event.reply(['Maaf, sedang ada gangguan. Silahkan ulangi pesanmu'])
             })
 
         } else {
 
-          return event.reply(['Batas waktu pembuatan laporan telah habis', 'Kirim \'Lapor\' untuk membuat laporan baru'])
+          return event.reply(['Batas waktu pembuatan laporan telah habis. Kirim \'Lapor\' untuk membuat laporan baru'])
 
         }
 
@@ -67,6 +66,6 @@ module.exports = async (event, bot) => {
     })
     .catch(err => {
       console.log(err)
-      return event.reply(['Maaf, sedang ada gangguan', 'Silahkan ulangi pesanmu'])
+      return event.reply(['Maaf, sedang ada gangguan. Silahkan ulangi pesanmu'])
     })
 }

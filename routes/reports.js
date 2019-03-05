@@ -67,7 +67,7 @@ router.patch('/:id', async (req, res) => {
         let usersId = await users.map(user => user.lineId)
         let carousel = {
           "type": "flex",
-          "altText": "New mission 🔥🔥🔥",
+          "altText": "New mission 🔥",
           "contents": {
             "type": "carousel",
             "contents": []

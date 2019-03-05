@@ -59,15 +59,12 @@ router.patch('/:id', async (req, res) => {
     return res.status(404).json()
   }
 
-  // console.log('REQUEST_ROLE: ', body.requestRole)
-
   if(body.requestRole.role !== user.role) {
     if(body.requestRole.status === 'accepted') {
       user.role = body.requestRole.role
       user.requestRole = {role: null, status: null}
       bot.push(user.lineId, [`Selamat, kamu sekarang seorang ${user.role}`])
     } else if(body.requestRole.status === 'declined') {
-      user.role = body.requestRole.role
       user.requestRole = {role: null, status: null}
       bot.push(user.lineId, [`Permintaan kamu untuk menjadi seorang ${user.role} ditolak oleh admin`])
     }

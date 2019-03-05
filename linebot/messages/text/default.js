@@ -43,7 +43,7 @@ module.exports = (event, text) => {
 
                 if(noPhoto && noLocation) {
 
-                  let reply = reportStillActive("Kirim foto kebakaran dan share lokasi kejadian untuk melengkapi laporanmu")
+                  let reply = reportStillActive("Kirim foto dan share lokasi kebakaran untuk melengkapi laporanmu")
                   reply.quickReply.items.push(cameraAction())
                   reply.quickReply.items.push(locationAction())
                   reply.quickReply.items.push(batalAction('Batalkan laporan', updatedReport._id))
@@ -58,20 +58,19 @@ module.exports = (event, text) => {
 
                 } else if (!noPhoto && noLocation) {
 
-                  let reply = reportStillActive("Share lokasi kejadian kebakaran untuk melengkapi laporanmu")
+                  let reply = reportStillActive("Share lokasi kebakaran untuk melengkapi laporanmu")
                   reply.quickReply.items.push(locationAction())
                   reply.quickReply.items.push(batalAction('Batalkan laporan', updatedReport._id))
                   return event.reply(["Keterangan laporan berhasil ditambahkan", reply])
 
                 } else {
 
-                  let reply = reportStillActive("Pilih salah satu aksi berikut")
+                  let reply = reportStillActive("Semua data yang dibutuhkan sudah lengkap. Pilih salah satu aksi berikut")
                   reply.quickReply.items.push(cameraAction())
-                  reply.quickReply.items.push(selesaiAction('Selesai', updatedReport._id))
+                  reply.quickReply.items.push(selesaiAction('Kirim laporan', updatedReport._id))
                   reply.quickReply.items.push(batalAction('Batalkan laporan', updatedReport._id))
                   return event.reply([
                     "Keterangan laporan berhasil ditambahkan",
-                    "Data yang dibutuhkan untuk membuat laporan sudah lengkap",
                     reply
                   ])
 
@@ -80,7 +79,7 @@ module.exports = (event, text) => {
               })
               .catch(err => {
                 console.log(err)
-                return event.reply(['Maaf, sedang ada gangguan', 'Silahkan ulangi pesanmu'])
+                return event.reply(['Maaf, sedang ada gangguan. Silahkan ulangi pesanmu'])
               })
 
           } else {
@@ -88,16 +87,14 @@ module.exports = (event, text) => {
             if(report.status === 'active') {
               report.status = 'invalid'
               await report.save()
-              return event.reply(['Batas waktu pembuatan laporan telah habis', 'Kirim \'Lapor\' untuk membuat laporan baru'])
+              return event.reply(['Batas waktu pembuatan laporan telah habis. Kirim \'Lapor\' untuk membuat laporan baru'])
             }
 
           }
         }
 
         return event.reply([
-            'Perintah tidak tersedia',
-            'Kirim \'Lapor\' untuk membuat laporan baru',
-            'Atau kirim \'Help\' untuk bantuan',
+            'Perintah tidak tersedia. \nKirim \'Lapor\' untuk membuat laporan baru, atau kirim \'Help\' untuk bantuan',
           ])
           .then(data => console.log('Success', data))
           .catch(error => console.log('Error', error))

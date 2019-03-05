@@ -16,8 +16,6 @@ app.post('/linewebhook', linebotParser)
 require('./linebot/__index')(bot)
 
 const corsOptions = {
-  origin: 'http://localhost:5000',
-  optionsSuccessStatus: 200,
   credentials: true
 }
 

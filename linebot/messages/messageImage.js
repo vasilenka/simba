@@ -43,7 +43,7 @@ module.exports = (event, bot) => {
             fs.writeFileSync(filePath, data, async err => {
               if(err) {
                 console.log(err)
-                return event.reply(['Maaf, sedang ada gangguan', 'Silahkan ulangi pesanmu'])
+                return event.reply(['Maaf, sedang ada gangguan. Silahkan ulangi pesanmu'])
               }
             })
 
@@ -53,26 +53,23 @@ module.exports = (event, bot) => {
 
             if(!updatedReport.address || !updatedReport.longitude || !updatedReport.latitude) {
 
-              reply = reportStillActive("Lengkapi data berikut untuk menyelesaikan laporan")
+              reply = reportStillActive("Balas pesan untuk menambahkan keterangan, atau lengkapi data berikut untuk menyelesaikan laporan")
               reply.quickReply.items.push(cameraAction())
               reply.quickReply.items.push(locationAction())
               reply.quickReply.items.push(batalAction('Batalkan laporan', updatedReport._id))
               return event.reply([
-                "Foto berhasil ditambahkan",
-                "Balas pesan untuk menambahkan keterangan, atau",
+                "✅ Foto berhasil ditambahkan",
                 reply
               ])
 
             } else {
 
-              reply = reportStillActive("Pilih salah satu aksi berikut")
+              reply = reportStillActive("Data yang dibutuhkan untuk laporan anda sudah cukup. Balas pesan untuk menambahkan keterangan atau pilih salah satu aksi berikut")
               reply.quickReply.items.push(cameraAction())
-              reply.quickReply.items.push(selesaiAction('Selesai', updatedReport._id))
+              reply.quickReply.items.push(selesaiAction('Kirim laporan', updatedReport._id))
               reply.quickReply.items.push(batalAction('Batalkan laporan', updatedReport._id))
               return event.reply([
-                "Foto berhasil ditambahkan",
-                "Data yang dibutuhkan untuk laporan anda sudah cukup",
-                "Balas pesan untuk menambahkan keterangan, atau",
+                "✅ Foto berhasil ditambahkan",
                 reply
               ])
 
@@ -83,15 +80,14 @@ module.exports = (event, bot) => {
             if(report.status === 'active') {
               report.status = 'invalid'
               await report.save()
-              return event.reply(['Batas waktu pembuatan laporan telah habis', 'Kirim \'Lapor\' untuk membuat laporan baru'])
+              return event.reply(['Batas waktu pembuatan laporan telah habis. Kirim \'Lapor\' untuk membuat laporan baru'])
             }
 
           }
         }
 
         return event.reply([
-            'Anda tidak memiliki laporan yang sedang aktif',
-            'Kirim \'Lapor\' untuk membuat laporan baru'
+            'Anda tidak memiliki laporan yang sedang aktif. Kirim \'Lapor\' untuk membuat laporan baru'
           ])
           .then(data => console.log('Success', data))
           .catch(error => console.log('Error', error))
@@ -99,11 +95,11 @@ module.exports = (event, bot) => {
       })
       .catch(err => {
         console.log(err)
-        return event.reply(['Maaf, sedang ada gangguan', 'Silahkan ulangi pesanmu'])
+        return event.reply(['Maaf, sedang ada gangguan. Silahkan ulangi pesanmu'])
       })
 
   }).catch(function (err) {
     console.log(err)
-    return event.reply(['Maaf, sedang ada gangguan', 'Silahkan ulangi pesanmu'])
+    return event.reply(['Maaf, sedang ada gangguan. Silahkan ulangi pesanmu'])
   })
 }
