@@ -9,7 +9,6 @@ const bot = require('./services/linebot')
 const linebotParser = bot.parser()
 
 const app = express()
-require('./models/__index')
 
 // Linebot
 app.post('/linewebhook', linebotParser)

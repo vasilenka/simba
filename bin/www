@@ -10,6 +10,9 @@ const http = require('http')
 const { socketIO } = require('../services/socketio')
 const {socket, client} = require('./../socket/__index')
 
+const connection = require('./../models/__index')
+connection()
+
 /**
  * Get port from environment and store in Express.
  */
