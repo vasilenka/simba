@@ -1,42 +1,12 @@
-const mongoose = require('mongoose')
+const mongoose  = require('mongoose')
+const config = require('../config')
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+mongoose.connect( config.database, { useNewUrlParser: true })
 
-const connectToMongo = async () => {
-  let connected = false
-  let maxReconnect = 10
-  let mongoUrl = process.env.MONGODB_URL
-  mongoose.set('useCreateIndex', true)
-  mongoose.set('useFindAndModify', false)
+const mongo = mongoose.connection
+mongo.on('error', console.error.bind(console, 'connection error:'))
+mongo.once('open', () => {
+  console.log('Database connected...')
+})
 
-  while (!connected && maxReconnect) {
-    try {
-      let mongo = await mongoose.connect(
-        mongoUrl,
-        {
-          useNewUrlParser: true,
-          reconnectTries: 10,
-          reconnectInterval: 500,
-          connectTimeoutMS: 10000
-        }
-      )
-      if (mongo) {
-        console.log('======================================')
-        console.log('MONGODB CONNECTED....')
-        console.log('======================================')
-        connected = true
-      } else {
-      }
-    } catch (err) {
-      console.log('======================================')
-      console.log('Reconnecting to database in 2 seconds...')
-      console.log('======================================')
-      await sleep(2000)
-      maxReconnect -= 1
-    }
-  }
-
-  mongoose.Promise = global.Promise
-}
-
-module.exports = connectToMongo
+module.exports = mongo
