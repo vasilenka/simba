@@ -1,6 +1,16 @@
 version: '3.4'
 
 services:
+  app:
+    container_name: simba-app
+    restart: always
+    env_file: .env
+    build: .
+    ports:
+      - '80:5000'
+    networks:
+      - simbanet
+
   mongo:
     container_name: simba-mongo
     image: mongo
@@ -11,16 +21,6 @@ services:
       - '27017:27017'
     volumes:
       - /data/db:/data/db
-
-  app:
-    container_name: simba-app
-    restart: always
-    env_file: .env
-    build: .
-    ports:
-      - '80:5000'
-    networks:
-      - simbanet
 
 networks:
   simbanet:
