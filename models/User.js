@@ -5,7 +5,36 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true,
+  },
+  fullName: {
+    type: String,
+  },
+  birthDate: {
+    type: Date,
+  },
+  gender: {
+    type: String,
+    enum: [
+      null,
+      'male',
+      'female',
+    ],
+    default: null,
+  },
+  idUrl: {
+    type: String,
+  },
+  address: {
+    type: String,
+    default: null,
+  },
+  longitude: {
+    type: String,
+    default: null,
+  },
+  latitude: {
+    type: String,
+    default: null,
   },
   password: {
     type: String,
@@ -56,6 +85,27 @@ const userSchema = new mongoose.Schema({
       'reporter',
     ],
     default: 'reporter',
+    lowercase: true,
+  },
+  registerProcess: {
+    type: String,
+    enum: [
+      null,
+      'pending',
+      'done',
+    ],
+    default: null,
+    lowercase: true,
+  },
+  status: {
+    type: String,
+    enum: [
+      null,
+      'pending',
+      'invalid',
+      'valid',
+    ],
+    default: null,
     lowercase: true,
   }
 })

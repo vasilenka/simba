@@ -1,4 +1,5 @@
 const checkUser = require('./../../../helper/checkUser')
+const validateUser = require('./../../../helper/validateUser')
 
 const io = require('./../../../services/socketClient')
 
@@ -6,30 +7,33 @@ module.exports = async (event, bot) => {
   event.source.profile()
     .then(async incomingUser => {
 
-      let user = await checkUser(incomingUser)
-      if(user.role !== 'dispatcher') {
+      let user = await validateUser(await checkUser(incomingUser), event, bot)
+      if(user) {
 
-        user.requestRole.role = 'dispatcher'
-        user.requestRole.status = 'pending'
+        if(user.role !== 'dispatcher') {
 
-        let newUser = await user.save()
+          user.requestRole.role = 'dispatcher'
+          user.requestRole.status = 'pending'
 
-        if(newUser) {
+          let newUser = await user.save()
 
-          io.emit('new_request', newUser)
-          return event.reply(["Permintaanmu akan segera kami proses"])
+          if(newUser) {
 
+            io.emit('new_request', newUser)
+            return event.reply(["Permintaanmu akan segera kami proses"])
+
+          } else {
+
+            return event.reply(['Maaf sedang ada gangguan, silahkan ulangi perintah anda'])
+
+          }
         } else {
 
-          return event.reply(['Maaf sedang ada gangguan, silahkan ulangi perintah anda'])
+          event.reply(["Haloo, dispatcher 👋🏻"])
 
         }
-      } else {
-
-        event.reply(["Haloo, dispatcher 👋🏻"])
 
       }
-
     })
     .catch(err => {
       console.log(err)

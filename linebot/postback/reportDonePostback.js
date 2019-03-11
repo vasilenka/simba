@@ -26,7 +26,7 @@ module.exports = async (data, event, bot) => {
 
   if(report) {
 
-    report.status = 'done'
+    report.status = 'active'
     report = await report.save()
 
     let carousel = {
@@ -47,7 +47,7 @@ module.exports = async (data, event, bot) => {
       }
     }
 
-    let reportUrl = `http://192.168.1.198:5000/active/${report._id}`;
+    let reportUrl = `${config.url}/reports/${report._id}`;
     let address = report.address
     let header = headerAction("KEBAKARAN 🔥", address, reportUrl)
     carousel.contents.contents.push(header)
@@ -70,6 +70,6 @@ module.exports = async (data, event, bot) => {
 
   }
 
-  return event.reply(["Anda tidak memiliki laporan yang sedang aktif. Ketik 'Lapor' untuk membuat laporan baru"])
+  return event.reply(["Kamu tidak memiliki laporan yang sedang aktif. Ketik 'Lapor' untuk membuat laporan baru"])
 
 }

@@ -21,11 +21,6 @@ module.exports = () => ({
       "size": "full",
       "aspectRatio": "3:1",
       "aspectMode": "fit",
-      "action": {
-        "type": "uri",
-        "label": "Action",
-        "uri": "https://linecorp.com/"
-      }
     },
     "body": {
       "type": "box",

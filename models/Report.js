@@ -30,17 +30,25 @@ const reportSchema = new mongoose.Schema({
     type: ObjectId,
     ref: 'User',
   },
+  processedAt: {
+    type: Date,
+    default: null,
+  },
+  completedAt: {
+    type: Date,
+    default: null,
+  },
   status: {
     type: String,
     enum: [
+      'pending',
       'active',
-      'done',
       'invalid',
       'cancelled',
       'mission',
       'accomplished',
     ],
-    default: 'active',
+    default: 'pending',
     lowercase: true,
   }
 })

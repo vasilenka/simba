@@ -2,26 +2,28 @@ const Report = require('./../../../models/Report')
 const User = require('./../../../models/User')
 
 const exceedLimit = require('./../../../helper/exceedLimit')
+
 const checkUser = require('./../../../helper/checkUser')
+const validateUser = require('./../../../helper/validateUser')
 
 const cameraAction = require('./../../action/cameraAction')
 const locationAction = require('./../../action/locationAction')
 const selesaiAction = require('./../../action/selesaiAction')
 const batalAction = require('./../../action/batalAction')
 const reportKebakaranAction = require('./../../action/reportKebakaran')
-const reportStillActive = require('./../../action/reportStillActive')
+const reportStillPending = require('./../../action/reportStillPending')
 
-module.exports = async event => {
+module.exports = async (event, bot) => {
   event.source.profile()
     .then(async incomingUser => {
 
-      let user = await checkUser(incomingUser)
+      let user = await validateUser(await checkUser(incomingUser), event, bot)
 
       if(user) {
 
         let report
         try {
-          report = await Report.findOne({ reporter: user._id, status: 'active' }, {}, {sort : { updatedAt: -1 }})
+          report = await Report.findOne({ reporter: user._id, status: 'pending' }, {}, {sort : { updatedAt: -1 }})
         } catch (err) {
           report = null
         }
@@ -34,7 +36,7 @@ module.exports = async event => {
 
             if(noPhoto && noLocation) {
 
-              let reply = reportStillActive("Kamu masih memiliki laporan aktif. Kirim foto & lokasi kebakaran untuk melengkapi laporanmu")
+              let reply = reportStillPending("Kamu masih memiliki laporan aktif. Kirim foto & lokasi kebakaran untuk melengkapi laporanmu")
               reply.quickReply.items.push(cameraAction())
               reply.quickReply.items.push(locationAction())
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
@@ -42,21 +44,21 @@ module.exports = async event => {
 
             } else if (noPhoto && !noLocation) {
 
-              let reply = reportStillActive("Kamu masih memiliki laporan aktif. Lengkapi foto kebakaran")
+              let reply = reportStillPending("Kamu masih memiliki laporan aktif. Lengkapi foto kebakaran")
               reply.quickReply.items.push(cameraAction())
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
               return event.reply([reply])
 
             } else if (!noPhoto && noLocation) {
 
-              let reply = reportStillActive("Kamu masih memiliki laporan aktif. Share lokasi kebakaran")
+              let reply = reportStillPending("Kamu masih memiliki laporan aktif. Share lokasi kebakaran")
               reply.quickReply.items.push(locationAction())
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
               return event.reply([reply])
 
             } else {
 
-              let reply = reportStillActive("Semua data yang dibutuhkan sudah lengkap. Pilih salah satu aksi berikut")
+              let reply = reportStillPending("Semua data yang dibutuhkan sudah lengkap. Pilih salah satu aksi berikut")
               reply.quickReply.items.push(cameraAction())
               reply.quickReply.items.push(selesaiAction('Kirim laporan', report._id))
               reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))

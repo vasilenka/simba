@@ -14,18 +14,18 @@ module.exports = (event, bot) => {
       switch (text) {
 
         case 'me': return require('./messages/text/me')(event)
-        case 'lapor': return require('./messages/text/lapor')(event)
+        case 'daftar': return require('./message/text/daftar')(event, bot)
+        case 'lapor': return require('./messages/text/lapor')(event, bot)
         case 'help': return require('./messages/text/help')(event)
         case 'saya volunteer': return require('./messages/text/requestVolunteer')(event, bot)
         case 'saya fireman': return require('./messages/text/requestFireman')(event, bot)
         case 'saya dispatcher': return require('./messages/text/requestDispatcher')(event, bot)
-        case 'help': return require('./messages/text/help')(event)
-        case 'help': return require('./messages/text/help')(event)
+        case 'kirim laporan': return
         case 'selesai': return
         case 'batalkan laporan': return
 
         default:
-          require('./messages/text/default')(event, event.message.text)
+          require('./messages/text/default')(event.message.text, event, bot)
           break
 
       }

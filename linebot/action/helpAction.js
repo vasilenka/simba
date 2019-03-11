@@ -1,6 +1,6 @@
 module.exports = () => ({
   "type": "flex",
-  "altText": "Flex Message",
+  "altText": "Bantuan",
   "contents": {
     "type": "carousel",
     "contents": [

@@ -23,14 +23,14 @@ module.exports = async (data, event, bot) => {
     }
 
     if(report) {
-      return event.reply(["Laporan anda telah dibatalkan"])
+      return event.reply(["Laporanmu telah dibatalkan"])
     } else {
       console.log(err)
-      return event.reply(['Maaf, terjadi kesalahan', 'Silahkan ulangi pesan anda'])
+      return event.reply(['Maaf, terjadi kesalahan', 'Silahkan ulangi pesanmu'])
     }
 
   }
 
-  return event.reply(["Anda tidak memiliki laporan yang sedang aktif", "Ketik 'Lapor' untuk membuat laporan baru"])
+  return event.reply(["Kamu tidak memiliki laporan yang sedang aktif", "Ketik 'Lapor' untuk membuat laporan baru"])
 
 }

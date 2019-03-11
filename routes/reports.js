@@ -3,11 +3,17 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const pick = require('lodash.pick')
 
+const config = require('./../config')
+
 const Report = require('./../models/Report')
 const User = require('./../models/User')
 
 const io = require('./../services/socketClient')
 const bot = require('./../services/linebot')
+
+const headerAction = require('./../linebot/action/reportHeaderAction')
+const confirmAction = require('./../linebot/action/missionCompleted')
+const imageAction = require('./../linebot/action/reportImageAction')
 
 router.get('/', (req, res) => {
 
@@ -54,6 +60,12 @@ router.patch('/:id', async (req, res) => {
     return res.status(404).send()
   }
 
+  if(body.status === 'mission' || body.status === 'invalid') {
+    report.processedAt = Date.now()
+  } else if(body.status === 'accomplished') {
+    report.completedAt = Date.now()
+  }
+
   report.dispatcher = body.dispatcher
   report.status = body.status
   report.save()
@@ -73,7 +85,25 @@ router.patch('/:id', async (req, res) => {
             "contents": []
           }
         }
-        bot.push(usersId, 'New mission! 🔥🔥🔥')
+
+        let reportUrl = `${config.url}/reports/${report._id}`;
+        let address = report.address
+        let header = headerAction("NEW MISSION 🔥", address, reportUrl)
+        carousel.contents.contents.push(header)
+
+        let photosUrl = report.photos.map(photo => `${config.url}${photo}`)
+        photosUrl.map(photo => {
+          carousel.contents.contents.push(imageAction(photo))
+        })
+
+        let reportConfirm = confirmAction("Apakah kebakaran sudah berhasil diatasi?", report._id)
+        carousel.contents.contents.push(reportConfirm)
+
+        bot.push(report.reporter.lineId, ["Laporan anda telah diproses. Petugas akan segera meluncur ke lokasi kebakaran."])
+        bot.push(usersId, [carousel])
+
+      } else if (report.status === 'invalid') {
+
       }
 
       let populatedReport = await User.populate(report, [{ path: 'dispatcher' }, {path: 'reporter'}])

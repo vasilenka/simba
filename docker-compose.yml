@@ -10,7 +10,7 @@ services:
     ports:
       - '27017:27017'
     volumes:
-      - /data/db:/data/db
+      - ./data:/data/db
 
   app:
     container_name: simba-app
