@@ -1,7 +1,7 @@
-module.exports = () => ({
+module.exports = label => ({
   "type": "action",
   "action": {
     "type": "location",
-    "label": "Share lokasi",
+    "label": label || "Share lokasi",
   }
 })

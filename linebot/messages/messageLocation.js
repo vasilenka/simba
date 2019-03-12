@@ -13,8 +13,10 @@ module.exports = async (event, bot) => {
   event.source.profile()
     .then(async incomingUser => {
 
-      let user = await validateUser(await checkUser(incomingUser), event, bot)
-      if(user) {
+      let user = await checkUser(incomingUser)
+      let validUser = await validateUser(user, event, bot)
+
+      if(user && validUser) {
 
         let report
         try {

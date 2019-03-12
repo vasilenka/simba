@@ -29,7 +29,14 @@ module.exports = async (user, event, bot) => {
 
   } else {
 
-    bot.push(user.lineId, ['Akunmu belum terdaftar. Kamu tidak bisa membuat laporan sebelum akunmu terdaftar. Kirim pesan \'Daftar\' untuk mendaftarkan akunmu.'])
+    if(registerProcess === 'pending') {
+
+      bot.push(user.lineId, ['Pendaftaran akunmu belum selesai. Kirim pesan \'Daftar\' untuk melanjutkan pendaftaran akunmu.'])
+      return false
+
+    }
+
+    bot.push(user.lineId, ['Akunmu belum terdaftar. Kirim pesan \'Daftar\' untuk mendaftarkan akunmu.'])
     return false
 
   }

@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
   },
   idUrl: {
     type: String,
+    default: null,
   },
   address: {
     type: String,

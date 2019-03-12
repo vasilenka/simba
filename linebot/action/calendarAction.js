@@ -1,12 +1,14 @@
-module.exports = (userId) => ({
+const config = require('./../../config')
+
+module.exports = id => ({
   "type": "action",
-  "imageUrl": "https://example.com/sushi.png",
+  "imageUrl": `${config.url}/images/icons/check.png`,
   "action": {
     "type":"datetimepicker",
-    "label": "Pilih tanggal lahirmu",
-    "data":`{
-      "action": "userId",
-      "reportId": "${userId}"
+    "label": "Tanggal lahir",
+    "data": `{
+      "action": "setBirthDate",
+      "userId": "${id}"
     }`,
     "mode": "date",
     "initial": "1993-12-02",
