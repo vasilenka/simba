@@ -1,6 +1,7 @@
 # Project Docs
 dev.js
 public/images/reports/*
+public/images/users/*
 .env
 .DS_Store
 
