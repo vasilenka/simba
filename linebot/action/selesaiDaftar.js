@@ -6,10 +6,10 @@ module.exports = (label, id) => ({
   "action": {
     "type": "postback",
     "label": label,
-    "text": "laporan:kirim",
+    "text": "daftar:selesai",
     "data":`{
-      "action": "reportDone",
-      "reportId": "${id}"
+      "action": "registerDone",
+      "userId": "${id}"
     }`,
   }
 })

@@ -1,6 +1,13 @@
-const actionTemplate = require('../action/setGenderAction')
+const textTemplate = require('../action/textTemplate')
+const selesaiDaftar = require('../action/selesaiDaftar')
+
+const chooseAlamatAction = require('../action/chooseAlamatAction')
+const chooseIdAction = require('../action/chooseIdAction')
+const calendarAction = require('../action/calendarAction')
 
 const User = require('../../models/User')
+
+const validateRegistrationData = require('./../../helper/validateRegistrationData')
 
 module.exports = async (data, event, bot) => {
 
@@ -16,7 +23,29 @@ module.exports = async (data, event, bot) => {
           return Promise.reject()
         }
 
-        return event.reply(['Jenis kelamin berhasil disimpan'])
+        if(validateRegistrationData(user)) {
+
+          let reply = textTemplate("Semua data registrasi sudah lengkap, silahkan pilih tombol Selesai Registrasi untuk menyelesaikan proses pendaftaran akunmu")
+          reply.quickReply.items.push(selesaiDaftar('Selesai daftar', user._id))
+
+          return event.reply([`Jenis kelamin berhasil disimpan sebagai: ${user.gender}`, reply])
+
+        } else {
+
+          let reply = textTemplate("Silahkan pilih salah satu tombol dibawah ini untuk melanjutkan proses pendaftaran akun")
+
+          if(!user.idUrl) {
+            reply.quickReply.items.push(chooseIdAction(user._id))
+          }
+          if(!user.address || !user.longitude || !user.latitude) {
+            reply.quickReply.items.push(chooseAlamatAction(user._id))
+          }
+          if(!user.birthDate) {
+            reply.quickReply.items.push(calendarAction(user._id))
+          }
+
+          return event.reply([`Jenis kelamin anda berhasil disimpan sebagai: ${user.gender}`, reply])
+        }
 
       })
       .catch(err => {

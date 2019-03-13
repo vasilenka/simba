@@ -81,7 +81,7 @@ module.exports = async (event, bot) => {
           reporter: user._id
         })
 
-        report.save()
+        return report.save()
           .then(report => {
 
             let replyNewReport = reportKebakaranAction()
@@ -97,5 +97,6 @@ module.exports = async (event, bot) => {
           })
 
       }
+
     })
 }

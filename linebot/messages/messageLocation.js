@@ -76,6 +76,32 @@ module.exports = async (event, bot) => {
           return event.reply(['Batas waktu pembuatan laporan telah habis. Kirim \'Lapor\' untuk membuat laporan baru'])
 
         }
+      }
+
+      if(user && user.registerProcess === 'pending') {
+
+        if(!user.address) {
+          user.address = event.message.address
+        }
+        user.latitude = event.message.latitude
+        user.longitude = event.message.longitude
+        return user.save()
+          .then(user => {
+
+            let reply = {
+              type: 'location',
+              title: 'Alamat',
+              address: `${user.address.replace(/\b\w/g, l => l.toUpperCase())}`,
+              latitude: Number(user.latitude),
+              longitude: Number(user.longitude)
+            }
+
+            return event.reply(['Lokasi-mu berhasil disimpan', reply])
+
+          })
+          .catch(err => {
+            return Promise.reject(err)
+          })
 
       }
     })

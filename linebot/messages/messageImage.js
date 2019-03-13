@@ -6,12 +6,21 @@ const Report = require('../../models/Report')
 const exceedLimit = require('../../helper/exceedLimit')
 const checkUser = require('../../helper/checkUser')
 const validateUser = require('../../helper/validateUser')
+const validateRegistrationData = require('../../helper/validateRegistrationData')
 
 const selesaiAction = require('../action/selesaiAction')
 const batalAction = require('../action/batalAction')
 const cameraAction = require('../action/cameraAction')
 const locationAction = require('../action/locationAction')
 const reportStillPending = require('../action/reportStillPending')
+
+const chooseIdAction = require('../action/chooseIdAction')
+const chooseAlamatAction = require('../action/chooseAlamatAction')
+const chooseGenderAction = require('../action/chooseGenderAction')
+const calendarAction = require('../action/calendarAction')
+
+const selesaiDaftar = require('./../action/selesaiDaftar')
+const textTemplate = require('./../action/textTemplate')
 
 module.exports = (event, bot) => {
   event.message.content().then(data => {
@@ -95,6 +104,61 @@ module.exports = (event, bot) => {
             ])
             .then(data => console.log('Success', data))
             .catch(error => console.log('Error', error))
+
+        }
+
+        if(user && user.registerProcess === 'pending') {
+
+          let dir = `public/images/users/${userId}`
+          let urlDir = `/images/users/${userId}`
+
+          if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir);
+          }
+
+          let filePath = `${dir}/${ dayjs(Date.now()).format('YYYYMMDD_HHmmss')+ '_' + userId}.png`
+          let urlPath = `${urlDir}/${ dayjs(Date.now()).format('YYYYMMDD_HHmmss')+ '_' + userId}.png`
+
+          fs.writeFileSync(filePath, data, async err => {
+            if(err) {
+              console.log(err)
+              return event.reply(['Maaf, sedang ada gangguan. Silahkan ulangi pesanmu'])
+            }
+          })
+
+          user.idUrl = urlPath
+          return user.save()
+            .then(user => {
+
+              let image = {
+                type: 'image',
+                originalContentUrl: `https://e0a12702.ngrok.io${user.idUrl}`,
+                previewImageUrl: `https://e0a12702.ngrok.io${user.idUrl}`,
+              };
+
+              if(validateRegistrationData(user)) {
+
+                let reply = textTemplate("Semua data registrasi sudah lengkap, silahkan pilih tombol Selesai Registrasi untuk menyelesaikan proses pendaftaran akunmu")
+
+                reply.quickReply.items.push(selesaiDaftar('Selesai daftar', user._id))
+
+                return event.reply(['Foto KTP berhasil disimpan', image, reply])
+
+              } else {
+
+                let reply = textTemplate("Silahkan pilih salah satu tombol dibawah ini untuk melanjutkan proses pendaftaran akun")
+
+                reply.quickReply.items.push(chooseIdAction(user._id))
+                reply.quickReply.items.push(chooseAlamatAction(user._id))
+                reply.quickReply.items.push(chooseGenderAction(user._id))
+                reply.quickReply.items.push(calendarAction(user._id))
+
+                return event.reply(['Foto KTP berhasil disimpan', image, reply])
+
+              }
+
+            })
+            .catch(err => Promise.reject(err))
 
         }
       })

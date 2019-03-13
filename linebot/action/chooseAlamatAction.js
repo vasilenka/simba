@@ -5,10 +5,10 @@ module.exports = (id) => ({
   // "imageUrl": `${config.url}/images/icons/check.png`,
   "action": {
     "type": "postback",
-    "text": "chooseGender",
-    "label": "Jenis kelamin",
+    "text": "chooseAlamat",
+    "label": "Alamat",
     "data": `{
-      "action": "chooseGender",
+      "action": "chooseAlamat",
       "userId": "${id}"
     }`,
   }

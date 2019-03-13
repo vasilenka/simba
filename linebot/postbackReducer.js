@@ -3,6 +3,10 @@ const reportCancelPostback = require('./postback/reportCancelPostback')
 const setGender = require('./postback/setGender')
 const chooseGender = require('./postback/chooseGender')
 const setBirthDate = require('./postback/setBirthDate')
+const setIdPhoto = require('./postback/setIdPhoto')
+
+const setRegisterDone = require('./postback/setRegisterDone')
+const chooseAlamat = require('./postback/chooseAlamat')
 
 module.exports = async (event, bot) => {
 
@@ -12,8 +16,12 @@ module.exports = async (event, bot) => {
   switch (data.action) {
 
     case 'setBirthDate': return setBirthDate(data, event, bot)
-    case 'chooseGender': return chooseGender(data, event, bot)
     case 'setGender': return setGender(data, event, bot)
+    case 'chooseGender': return chooseGender(data, event, bot)
+    case 'chooseAlamat': return chooseAlamat(data, event, bot)
+    case 'chooseId': return setIdPhoto(data, event, bot)
+    case 'registerDone': return setRegisterDone(data, event, bot)
+
     case 'reportDone': return reportDonePostback(data, event, bot)
     case 'reportCancel': return reportCancelPostback(data, event, bot)
 

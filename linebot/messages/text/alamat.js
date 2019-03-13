@@ -1,6 +1,9 @@
 const pull = require('lodash.pull')
 const checkUser = require('./../../../helper/checkUser')
 
+const template = require('./../../action/reportStillPending')
+const locationAction = require('./../../action/locationAction')
+
 module.exports = async (event, bot) => {
   event.source.profile()
     .then(async incomingUser => {
@@ -19,7 +22,10 @@ module.exports = async (event, bot) => {
               return Promise.reject()
             }
 
-            return event.reply(["Alamat kamu berhasil disimpan", user.address.replace(/\b\w/g, l => l.toUpperCase())])
+            let reply = template('Pilih aksi dibawah ini untuk mengirim lokasi alamatmu pada peta 👇🏻')
+            reply.quickReply.items.push(locationAction('Kirim lokasi'))
+
+            return event.reply([`Alamat kamu berhasil disimpan \n${user.address.replace(/\b\w/g, l => l.toUpperCase())}`, reply])
 
           })
           .catch(err => {

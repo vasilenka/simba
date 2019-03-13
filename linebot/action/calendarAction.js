@@ -2,7 +2,7 @@ const config = require('./../../config')
 
 module.exports = id => ({
   "type": "action",
-  "imageUrl": `${config.url}/images/icons/check.png`,
+  // "imageUrl": `${config.url}/images/icons/check.png`,
   "action": {
     "type":"datetimepicker",
     "label": "Tanggal lahir",

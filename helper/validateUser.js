@@ -13,25 +13,20 @@ module.exports = async (user, event, bot) => {
     latitude,
   } = user
 
-  if(status === 'pending') {
+  if(status === 'pending' || status === 'valid') {
 
-    bot.push(user.lineId, ['Akunmu belum diverifikasi oleh admin. Kamu belum bisa membuat laporan baru.'])
-    return false
+    return true
 
   } else if(status === 'invalid') {
 
     bot.push(user.lineId, ['Data yang kamu berikan ketika registrasi tidak valid. Kirim \'Daftar\' untuk mengulangi proses registarsi.'])
     return false
 
-  } else if(status === 'valid') {
-
-    return true;
-
   } else {
 
     if(registerProcess === 'pending') {
 
-      bot.push(user.lineId, ['Pendaftaran akunmu belum selesai. Kirim pesan \'Daftar\' untuk melanjutkan pendaftaran akunmu.'])
+      // bot.push(user.lineId, ['Pendaftaran akunmu belum selesai. Kirim pesan \'Daftar\' untuk melanjutkan pendaftaran akunmu.'])
       return false
 
     }

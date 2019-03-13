@@ -13,7 +13,6 @@ const chooseAlamatAction = require('../../action/chooseAlamatAction')
 const selesaiDaftar = require('./../../action/selesaiDaftar')
 
 const template = require('./../../action/reportStillPending')
-const templateImage = require('./../../action/templateImage')
 
 module.exports = async (event, bot) => {
   event.source.profile()
@@ -32,26 +31,17 @@ module.exports = async (event, bot) => {
                 return Promise.reject()
               }
 
-              if(user.fullName) {
+              let reply = template('Proses pendaftarkan akan dimulai. Lengkapi datamu dengan memilih tombol aksi dibawah ini 👇🏻')
 
-                let reply = template("Pilih salah satu aksi dibawah ini untuk melanjutkan proses pendaftaran 👇🏻")
-
-                reply.quickReply.items.push(chooseIdAction(user._id))
-                reply.quickReply.items.push(chooseAlamatAction(user._id))
-                reply.quickReply.items.push(chooseGenderAction(user._id))
-                reply.quickReply.items.push(calendarAction(user._id))
-
-                if(validateRegistrationData(user._id)) {
-                  reply.quickReply.items.push(selesaiDaftar("Selesai daftar", user._id))
-                }
-
-                return event.reply([`Halo ${user.fullName.replace(/\b\w/g, l => l.toUpperCase())} 👋🏻`, reply])
-
+              reply.quickReply.items.push(chooseIdAction(user._id))
+              reply.quickReply.items.push(chooseAlamatAction(user._id))
+              reply.quickReply.items.push(chooseGenderAction(user._id))
+              reply.quickReply.items.push(calendarAction(user._id))
+              if(validateRegistrationData(user._id)) {
+                reply.quickReply.items.push(selesaiDaftar("Selesai daftar", user._id))
               }
 
-              let reply = templateImage()
-
-              return event.reply([reply, "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"])
+              return event.reply(reply)
 
             })
             .catch(err => {

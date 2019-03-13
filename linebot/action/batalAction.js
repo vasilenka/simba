@@ -6,7 +6,7 @@ module.exports = (label, id) =>({
   "action": {
     "type": "postback",
     "label": label,
-    "text": label,
+    "text": "laporan:batal",
     "data":`{
       "action": "reportCancel",
       "reportId": "${id}"

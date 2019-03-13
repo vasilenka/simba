@@ -17,9 +17,14 @@ module.exports = (event, bot) => {
         case 'me': return require('./messages/text/me')(event)
 
         case 'daftar': return require('./messages/text/daftar')(event, bot)
+        case 'daftar:update': return require('./messages/text/updateData')(event, bot)
+        case 'daftar:selesai': return
+
         case 'setnama:': return require('./messages/text/nama')(event, bot)
         case 'setalamat:': return require('./messages/text/alamat')(event, bot)
         case 'choosegender': return
+        case 'choosealamat': return
+        case 'chooseid': return
         case 'setgender:laki-laki': return
         case 'set:birthdate': return
         case 'setgender:perempuan': return
@@ -29,9 +34,9 @@ module.exports = (event, bot) => {
         case 'volunteer': return require('./messages/text/requestVolunteer')(event, bot)
         case 'fireman': return require('./messages/text/requestFireman')(event, bot)
         case 'dispatcher': return require('./messages/text/requestDispatcher')(event, bot)
-        case 'kirim_laporan': return
+        case 'laporan:kirim': return
         case 'selesai': return
-        case 'batalkan_laporan': return
+        case 'laporan:batal': return
 
         default:
           require('./messages/text/default')(event.message.text, event, bot)
