@@ -22,7 +22,7 @@ module.exports = (event, bot) => {
 
         case 'setnama:': return require('./messages/text/nama')(event, bot)
         case 'setalamat:': return require('./messages/text/alamat')(event, bot)
-        case 'choosegender': return
+        case 'gender:choose': return
         case 'choosealamat': return
         case 'chooseid': return
         case 'setgender:laki-laki': return

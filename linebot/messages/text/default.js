@@ -1,17 +1,20 @@
-const dayjs = require('dayjs')
-
 const Report = require('./../../../models/Report')
-const User = require('./../../../models/User')
 
 const exceedLimit = require('./../../../helper/exceedLimit')
 const checkUser = require('./../../../helper/checkUser')
 const validateUser = require('./../../../helper/validateUser')
 
-const reportStillPending = require('./../../action/reportStillPending')
+const textTemplate = require('./../../action/textTemplate')
 const cameraAction = require('./../../action/cameraAction')
 const locationAction = require('./../../action/locationAction')
 const batalAction = require('./../../action/batalAction')
 const selesaiAction = require('./../../action/selesaiAction')
+
+const chooseIdAction = require('./../../action/chooseIdAction')
+const chooseAlamatAction = require('./../../action/chooseAlamatAction')
+const chooseGenderAction = require('./../../action/chooseGenderAction')
+const calendarAction = require('./../../action/calendarAction')
+const templateImage = require('./../../action/templateImage')
 
 module.exports = (text, event, bot) => {
   event.source.profile()
@@ -45,7 +48,7 @@ module.exports = (text, event, bot) => {
 
                   if(noPhoto && noLocation) {
 
-                    let reply = reportStillPending("Kirim foto dan share lokasi kebakaran untuk melengkapi laporanmu")
+                    let reply = textTemplate("Kirim foto dan share lokasi kebakaran untuk melengkapi laporanmu")
                     reply.quickReply.items.push(cameraAction())
                     reply.quickReply.items.push(locationAction())
                     reply.quickReply.items.push(batalAction('Batalkan laporan', updatedReport._id))
@@ -53,21 +56,21 @@ module.exports = (text, event, bot) => {
 
                   } else if (noPhoto && !noLocation) {
 
-                    let reply = reportStillPending("Kirim foto kebakaran untuk melengkapi laporanmu")
+                    let reply = textTemplate("Kirim foto kebakaran untuk melengkapi laporanmu")
                     reply.quickReply.items.push(cameraAction())
                     reply.quickReply.items.push(batalAction('Batalkan laporan', updatedReport._id))
                     return event.reply(["Keterangan laporan berhasil ditambahkan", reply])
 
                   } else if (!noPhoto && noLocation) {
 
-                    let reply = reportStillPending("Share lokasi kebakaran untuk melengkapi laporanmu")
+                    let reply = textTemplate("Share lokasi kebakaran untuk melengkapi laporanmu")
                     reply.quickReply.items.push(locationAction())
                     reply.quickReply.items.push(batalAction('Batalkan laporan', updatedReport._id))
                     return event.reply(["Keterangan laporan berhasil ditambahkan", reply])
 
                   } else {
 
-                    let reply = reportStillPending("Semua data yang dibutuhkan sudah lengkap. Pilih salah satu aksi berikut")
+                    let reply = textTemplate("Semua data yang dibutuhkan sudah lengkap. Pilih salah satu aksi berikut")
                     reply.quickReply.items.push(cameraAction())
                     reply.quickReply.items.push(selesaiAction('Kirim laporan', updatedReport._id))
                     reply.quickReply.items.push(batalAction('Batalkan laporan', updatedReport._id))
@@ -102,6 +105,41 @@ module.exports = (text, event, bot) => {
             .catch(error => console.log('Error', error))
 
         }
+
+        if(user.registerProcess === 'pending') {
+
+          if(!user.fullName) {
+
+            let image = templateImage()
+            return event.reply([
+              image,
+              "Proses pendaftaran akunmu belum selesai",
+              "Mari kita mulai dengan perkenalan terlebih dahulu",
+              "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp",
+              "misal, setnama: Ongki Herlambang"])
+
+          }
+
+          let reply = textTemplate("Silahkan pilih salah satu tombol dibawah ini untuk melanjutkan proses pendaftaran akun")
+          if(!user.idUrl) {
+            reply.quickReply.items.push(chooseIdAction(user._id))
+          }
+          if(!user.address || !user.longitude || !user.latitude) {
+            reply.quickReply.items.push(chooseAlamatAction(user._id))
+          }
+          if(!user.gender) {
+            reply.quickReply.items.push(chooseGenderAction(user._id))
+          }
+          if(!user.birthDate) {
+            reply.quickReply.items.push(calendarAction(user._id))
+          }
+
+          return event.reply(['Proses pendaftaran akunmu belum selesai', reply])
+
+        } else {
+          return event.reply(['Akunmu belum terdaftar. Kirim pesan \'Daftar\' untuk mendaftarkan akunmu.'])
+        }
+
       }
     })
     .catch(err => {

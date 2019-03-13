@@ -5,7 +5,7 @@ module.exports = (id) => ({
   // "imageUrl": `${config.url}/images/icons/check.png`,
   "action": {
     "type": "postback",
-    "text": "chooseGender",
+    "text": "gender:choose",
     "label": "Jenis kelamin",
     "data": `{
       "action": "chooseGender",

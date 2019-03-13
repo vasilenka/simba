@@ -8,7 +8,7 @@ module.exports = async (event, bot) => {
     .then(async incomingUser => {
 
       let user = await checkUser(incomingUser)
-      let validUser = await validateUser(user, event, bot)
+      let validUser = validateUser(user, event, bot)
 
       if(user && validUser) {
 

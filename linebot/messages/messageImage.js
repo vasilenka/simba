@@ -1,5 +1,6 @@
 const fs = require('fs')
 const dayjs = require('dayjs')
+const config = require('./../../config')
 
 const Report = require('../../models/Report')
 
@@ -29,7 +30,7 @@ module.exports = (event, bot) => {
 
         let {userId} = incomingUser
         let user = await checkUser(incomingUser)
-        let validUser = await validateUser(user, event, bot)
+        let validUser = validateUser(user, event, bot)
 
         if(user && validUser) {
 
@@ -110,7 +111,7 @@ module.exports = (event, bot) => {
         if(user && user.registerProcess === 'pending') {
 
           if(!user.fullName) {
-            return event.reply(["Mohon ikuti langkah pendaftaran dengan benar", "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"])
+            return event.reply(["Mohon ikuti petunjuk pendaftaran secara teratur", "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"])
           }
 
           let dir = `public/images/users/${userId}`
@@ -134,24 +135,22 @@ module.exports = (event, bot) => {
           return user.save()
             .then(user => {
 
-              let image = {
-                type: 'image',
-                originalContentUrl: `https://e0a12702.ngrok.io${user.idUrl}`,
-                previewImageUrl: `https://e0a12702.ngrok.io${user.idUrl}`,
-              };
+              // let image = {
+              //   type: 'image',
+              //   originalContentUrl: `${config.url}${user.idUrl}`,
+              //   previewImageUrl: `${config.url}${user.idUrl}`,
+              // };
 
               if(validateRegistrationData(user)) {
 
-                let reply = textTemplate("Semua data registrasi sudah lengkap, silahkan pilih tombol Selesai Registrasi untuk menyelesaikan proses pendaftaran akunmu")
-
+                let reply = textTemplate("Data pendaftaran sudah lengkap. Pilih tombol Selesai daftar untuk menyelesaikan proses pendaftaran akun")
                 reply.quickReply.items.push(selesaiDaftar('Selesai daftar', user._id))
 
-                return event.reply(['Foto KTP berhasil disimpan', image, reply])
+                return event.reply(['✅ Foto KTP berhasil disimpan', reply])
 
               } else {
 
                 let reply = textTemplate("Silahkan pilih salah satu tombol dibawah ini untuk melanjutkan proses pendaftaran akun")
-
                 if(!user.idUrl) {
                   reply.quickReply.items.push(chooseIdAction(user._id))
                 }
@@ -164,11 +163,8 @@ module.exports = (event, bot) => {
                 if(!user.birthDate) {
                   reply.quickReply.items.push(calendarAction(user._id))
                 }
-                if(validateRegistrationData(user._id)) {
-                  reply.quickReply.items.push(selesaiDaftar("Selesai daftar", user._id))
-                }
 
-                return event.reply(['Foto KTP berhasil disimpan', image, reply])
+                return event.reply(['✅ Foto KTP berhasil disimpan', reply])
 
               }
 

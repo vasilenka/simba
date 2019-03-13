@@ -1,17 +1,9 @@
 const User = require('../models/User')
 
-module.exports = async (user, event, bot) => {
+module.exports = (user, event, bot) => {
 
-  let {
-    registerProcess,
-    status,
-    fullName,
-    birthDate,
-    gender,
-    address,
-    longitude,
-    latitude,
-  } = user
+  let registerProcess = user.registerProcess
+  let status = user.status
 
   if(status === 'pending' || status === 'valid') {
 
@@ -22,19 +14,12 @@ module.exports = async (user, event, bot) => {
     bot.push(user.lineId, ['Data yang kamu berikan ketika registrasi tidak valid. Kirim \'Daftar\' untuk mengulangi proses registarsi.'])
     return false
 
-  } else {
-
-    if(registerProcess === 'pending') {
-
-      // bot.push(user.lineId, ['Pendaftaran akunmu belum selesai. Kirim pesan \'Daftar\' untuk melanjutkan pendaftaran akunmu.'])
-      return false
-
-    }
-
-    bot.push(user.lineId, ['Akunmu belum terdaftar. Kirim pesan \'Daftar\' untuk mendaftarkan akunmu.'])
-    return false
-
   }
 
+  if(registerProcess === 'pending') {
+    return false
+  }
+
+  return false
 
 }

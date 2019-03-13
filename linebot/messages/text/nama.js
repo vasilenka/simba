@@ -28,18 +28,25 @@ module.exports = async (event, bot) => {
               return Promise.reject()
             }
 
-            let reply = textTemplate("Lengkapi data pendaftaran anda dengan memilih tombol dibawah ini 👇🏻")
+            if(validateRegistrationData(user)) {
 
-            reply.quickReply.items.push(chooseIdAction(user._id))
-            reply.quickReply.items.push(chooseAlamatAction(user._id))
-            reply.quickReply.items.push(chooseGenderAction(user._id))
-            reply.quickReply.items.push(calendarAction(user._id))
-            if(validateRegistrationData(user._id)) {
-              reply.quickReply.items.push(selesaiDaftar("Selesai daftar", user._id))
+              let reply = textTemplate("Data pendaftaran sudah lengkap. Pilih tombol \'Selesai daftar\' untuk menyelesaikan proses pendaftaran akun")
+              reply.quickReply.items.push(selesaiDaftar('Selesai daftar', user._id))
+
+              return event.reply([`Halo ${user.fullName.replace(/\b\w/g, l => l.toUpperCase())} 👋🏻`, reply])
+
+            } else {
+
+              let reply = textTemplate("Silahkan lengkapi data pendaftaran anda dengan memilih tombol dibawah ini 👇🏻")
+
+              reply.quickReply.items.push(chooseIdAction(user._id))
+              reply.quickReply.items.push(chooseAlamatAction(user._id))
+              reply.quickReply.items.push(chooseGenderAction(user._id))
+              reply.quickReply.items.push(calendarAction(user._id))
+
+              return event.reply([`Halo ${user.fullName.replace(/\b\w/g, l => l.toUpperCase())} 👋🏻`, reply])
+
             }
-
-            return event.reply([`Halo ${user.fullName.replace(/\b\w/g, l => l.toUpperCase())} 👋🏻`, reply])
-
           })
           .catch(err => {
             return Promise.reject(err)

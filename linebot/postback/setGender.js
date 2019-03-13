@@ -40,11 +40,14 @@ module.exports = async (data, event, bot) => {
           if(!user.address || !user.longitude || !user.latitude) {
             reply.quickReply.items.push(chooseAlamatAction(user._id))
           }
+          if(!user.gender) {
+            reply.quickReply.items.push(chooseGenderAction(user._id))
+          }
           if(!user.birthDate) {
             reply.quickReply.items.push(calendarAction(user._id))
           }
 
-          return event.reply([`Jenis kelamin anda berhasil disimpan sebagai: ${user.gender}`, reply])
+          return event.reply([`Jenis kelamin anda berhasil disimpan sebagai: ${user.gender === 'male' ? 'Laki-laki' : 'Perempuan' }`, reply])
         }
 
       })

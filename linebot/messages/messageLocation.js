@@ -21,7 +21,7 @@ module.exports = async (event, bot) => {
     .then(async incomingUser => {
 
       let user = await checkUser(incomingUser)
-      let validUser = await validateUser(user, event, bot)
+      let validUser = validateUser(user, event, bot)
 
       if(user && validUser) {
 
@@ -88,25 +88,15 @@ module.exports = async (event, bot) => {
       if(user && user.registerProcess === 'pending') {
 
         if(!user.fullName) {
-          return event.reply(["Mohon ikuti langkah pendaftaran dengan benar", "Balas pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"])
-        }
 
-        if(!user.address) {
-          user.address = event.message.address
-        }
+          return event.reply([
+            "Mohon ikuti petunjuk pendaftaran secara teratur",
+            "Balas pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp",
+            "misal, setnama: Ongki Herlambang"])
 
-        user.latitude = event.message.latitude
-        user.longitude = event.message.longitude
-        return user.save()
-          .then(user => {
+        } else {
 
-            let location = {
-              type: 'location',
-              title: 'Alamat',
-              address: `${user.address.replace(/\b\w/g, l => l.toUpperCase())}`,
-              latitude: Number(user.latitude),
-              longitude: Number(user.longitude)
-            }
+          if(!user.address) {
 
             let reply = textTemplate("Silahkan pilih salah satu tombol dibawah ini untuk melanjutkan proses pendaftaran akun")
             if(!user.idUrl) {
@@ -121,17 +111,57 @@ module.exports = async (event, bot) => {
             if(!user.birthDate) {
               reply.quickReply.items.push(calendarAction(user._id))
             }
-            if(validateRegistrationData(user._id)) {
-              reply.quickReply.items.push(selesaiDaftar("Selesai daftar", user._id))
-            }
 
-            return event.reply(['Titik alamatmu berhasil disimpan', location, ])
+            return event.reply(["Mohon ikuti petunjuk pendaftaran secara teratur", reply])
 
-          })
-          .catch(err => {
-            return Promise.reject(err)
-          })
+          }
 
+          user.latitude = event.message.latitude
+          user.longitude = event.message.longitude
+          return user.save()
+            .then(user => {
+
+              let location = {
+                type: 'location',
+                title: 'Alamat',
+                address: `${user.address.replace(/\b\w/g, l => l.toUpperCase())}`,
+                latitude: Number(user.latitude),
+                longitude: Number(user.longitude)
+              }
+
+              if(validateRegistrationData(user)) {
+
+                let reply = textTemplate("Data pendaftaran sudah lengkap. Pilih tombol Selesai daftar untuk menyelesaikan proses pendaftaran akun")
+                reply.quickReply.items.push(selesaiDaftar('Selesai daftar', user._id))
+
+                return event.reply(['✅ Titik alamat berhasil disimpan', location, reply])
+
+              } else {
+
+                let reply = textTemplate("Silahkan pilih salah satu tombol dibawah ini untuk melanjutkan proses pendaftaran akun")
+                if(!user.idUrl) {
+                  reply.quickReply.items.push(chooseIdAction(user._id))
+                }
+                if(!user.address || !user.longitude || !user.latitude) {
+                  reply.quickReply.items.push(chooseAlamatAction(user._id))
+                }
+                if(!user.gender) {
+                  reply.quickReply.items.push(chooseGenderAction(user._id))
+                }
+                if(!user.birthDate) {
+                  reply.quickReply.items.push(calendarAction(user._id))
+                }
+
+                return event.reply(['✅ Titik alamatmu berhasil disimpan', location, reply])
+
+              }
+
+            })
+            .catch(err => {
+              return Promise.reject(err)
+            })
+
+        }
       }
     })
     .catch(err => {

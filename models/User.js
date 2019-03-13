@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   },
   fullName: {
     type: String,
+    default: null,
   },
   birthDate: {
     type: Date,
@@ -95,7 +96,7 @@ const userSchema = new mongoose.Schema({
       'pending',
       'done',
     ],
-    default: null,
+    default: 'pending',
     lowercase: true,
   },
   status: {
