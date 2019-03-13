@@ -1,6 +1,6 @@
 module.exports = text => ({
   "type": "flex",
-  "altText": "Flex Message",
+  "altText": "Daftar akun",
   "contents": {
     "type": "bubble",
     "direction": "ltr",
@@ -25,7 +25,7 @@ module.exports = text => ({
     "hero": {
       "type": "image",
       "url": "https://cdn.dribbble.com/users/1418633/screenshots/5106121/hi-dribbble-studiotale.gif",
-      "margin": "none",
+      "margin": "default",
       "align": "center",
       "gravity": "center",
       "size": "full",
@@ -37,11 +37,14 @@ module.exports = text => ({
       "layout": "vertical",
       "contents": [
         {
-          "type": "text",
-          "text": "Mari kita mulai dengan perkenalan terlebih dahulu",
-          "margin": "none",
-          "align": "center",
-          "wrap": true
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "spacer",
+              "size": "xs"
+            }
+          ]
         }
       ]
     }

@@ -35,12 +35,18 @@ module.exports = async (event, bot) => {
               if(user.fullName) {
 
                 let reply = template("Pilih salah satu aksi dibawah ini untuk melanjutkan proses pendaftaran 👇🏻")
-
-                reply.quickReply.items.push(chooseIdAction(user._id))
-                reply.quickReply.items.push(chooseAlamatAction(user._id))
-                reply.quickReply.items.push(chooseGenderAction(user._id))
-                reply.quickReply.items.push(calendarAction(user._id))
-
+                if(!user.idUrl) {
+                  reply.quickReply.items.push(chooseIdAction(user._id))
+                }
+                if(!user.address || !user.longitude || !user.latitude) {
+                  reply.quickReply.items.push(chooseAlamatAction(user._id))
+                }
+                if(!user.gender) {
+                  reply.quickReply.items.push(chooseGenderAction(user._id))
+                }
+                if(!user.birthDate) {
+                  reply.quickReply.items.push(calendarAction(user._id))
+                }
                 if(validateRegistrationData(user._id)) {
                   reply.quickReply.items.push(selesaiDaftar("Selesai daftar", user._id))
                 }
@@ -51,7 +57,7 @@ module.exports = async (event, bot) => {
 
               let reply = templateImage()
 
-              return event.reply([reply, "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"])
+              return event.reply([reply, "Mari kita mulai dengan perkenalan terlebih dahulu", "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"])
 
             })
             .catch(err => {

@@ -109,6 +109,10 @@ module.exports = (event, bot) => {
 
         if(user && user.registerProcess === 'pending') {
 
+          if(!user.fullName) {
+            return event.reply(["Mohon ikuti langkah pendaftaran dengan benar", "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"])
+          }
+
           let dir = `public/images/users/${userId}`
           let urlDir = `/images/users/${userId}`
 
@@ -148,10 +152,21 @@ module.exports = (event, bot) => {
 
                 let reply = textTemplate("Silahkan pilih salah satu tombol dibawah ini untuk melanjutkan proses pendaftaran akun")
 
-                reply.quickReply.items.push(chooseIdAction(user._id))
-                reply.quickReply.items.push(chooseAlamatAction(user._id))
-                reply.quickReply.items.push(chooseGenderAction(user._id))
-                reply.quickReply.items.push(calendarAction(user._id))
+                if(!user.idUrl) {
+                  reply.quickReply.items.push(chooseIdAction(user._id))
+                }
+                if(!user.address || !user.longitude || !user.latitude) {
+                  reply.quickReply.items.push(chooseAlamatAction(user._id))
+                }
+                if(!user.gender) {
+                  reply.quickReply.items.push(chooseGenderAction(user._id))
+                }
+                if(!user.birthDate) {
+                  reply.quickReply.items.push(calendarAction(user._id))
+                }
+                if(validateRegistrationData(user._id)) {
+                  reply.quickReply.items.push(selesaiDaftar("Selesai daftar", user._id))
+                }
 
                 return event.reply(['Foto KTP berhasil disimpan', image, reply])
 

@@ -22,10 +22,10 @@ module.exports = async (event, bot) => {
               return Promise.reject()
             }
 
-            let reply = template('Pilih aksi dibawah ini untuk mengirim lokasi alamatmu pada peta 👇🏻')
+            let reply = template('Lanjutkan dengan pilih tombol dibawah ini untuk mengirim titik alamatmu pada peta 👇🏻')
             reply.quickReply.items.push(locationAction('Kirim lokasi'))
 
-            return event.reply([`Alamat kamu berhasil disimpan \n${user.address.replace(/\b\w/g, l => l.toUpperCase())}`, reply])
+            return event.reply([`Alamat berhasil disimpan`, reply])
 
           })
           .catch(err => {

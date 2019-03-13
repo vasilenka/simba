@@ -1,9 +1,9 @@
 const pull = require('lodash.pull')
 
 const checkUser = require('./../../../helper/checkUser')
+const validateRegistrationData = require('./../../../helper/validateRegistrationData')
 
-const cameraAction = require('./../../action/cameraAction')
-const locationAction = require('./../../action/locationAction')
+const textTemplate = require('./../../action/textTemplate')
 const calendarAction = require('./../../action/calendarAction')
 const chooseGenderAction = require('../../action/chooseGenderAction')
 const chooseIdAction = require('../../action/chooseIdAction')
@@ -28,7 +28,7 @@ module.exports = async (event, bot) => {
               return Promise.reject()
             }
 
-            let reply = require('./../../action/textTemplate')("Lengkapi data anda dengan memilih aksi dibawah ini 👇🏻")
+            let reply = textTemplate("Lengkapi data pendaftaran anda dengan memilih tombol dibawah ini 👇🏻")
 
             reply.quickReply.items.push(chooseIdAction(user._id))
             reply.quickReply.items.push(chooseAlamatAction(user._id))
