@@ -8,6 +8,7 @@ const pick = require('lodash.pick')
 const bot = require('./../services/linebot')
 
 const User = require('./../models/User')
+const Report = require('./../models/Report')
 
 router.get('/', (req, res) => {
 
@@ -18,6 +19,18 @@ router.get('/', (req, res) => {
       return res.status(500).send()
     })
 
+})
+
+router.get('/reports/:id', (req, res) => {
+  let id = req.params.id
+
+  Report.find({reporter: id})
+    .populate('reporter')
+    .then(reports => res.status(200).json(reports))
+    .catch(err => {
+      console.log(err)
+      return res.status(500).send()
+    })
 })
 
 router.get('/:id', (req, res) => {
