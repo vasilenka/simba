@@ -47,7 +47,9 @@ module.exports = async (data, event, bot) => {
       }
     }
 
-    let reportUrl = `${config.url}/reports/${report._id}`;
+    let reportType = report.status === "active" ? "active" : report.status === "missions" ? "missions" : "completed"
+
+    let reportUrl = `${config.webUrl}/${reportType}/${report._id}`;
     let address = report.address
     let header = headerAction("KEBAKARAN 🔥", address, reportUrl)
     carousel.contents.contents.push(header)

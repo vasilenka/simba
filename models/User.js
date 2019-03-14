@@ -43,6 +43,7 @@ const userSchema = new mongoose.Schema({
   },
   profileUrl: {
     type: String,
+    default: null,
   },
   active: {
     type: Boolean,
@@ -109,8 +110,22 @@ const userSchema = new mongoose.Schema({
     ],
     default: null,
     lowercase: true,
+  },
+  yearCreated: {
+    type: Number,
+    default: new Date(Date.now()).getFullYear()
+  },
+  monthCreated: {
+    type: Number,
+    default: new Date(Date.now()).getMonth()
+  },
+  dayCreated: {
+    type: Number,
+    default: new Date(Date.now()).getDate()
   }
 })
+
+// TODO: MUST CHECK TIME CREATED ON REGISTERED ACCOUNT
 
 userSchema.plugin(timestamps)
 module.exports = mongoose.model('User', userSchema);

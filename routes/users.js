@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require('mongoose')
+const dayjs = require('dayjs')
 const ObjectId = mongoose.Types.ObjectId
 
 const pick = require('lodash.pick')
@@ -22,6 +23,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/reports/:id', (req, res) => {
+
   let id = req.params.id
 
   Report.find({reporter: id})
@@ -31,6 +33,19 @@ router.get('/reports/:id', (req, res) => {
       console.log(err)
       return res.status(500).send()
     })
+})
+
+router.get('/year/:year', (req, res) => {
+
+  let year = req.params.year
+
+  User.find()
+    .then(users => res.status(200).json(users.filter(user => dayjs(user.createdAt).year() === Number(year))))
+    .catch(err => {
+      console.log(err)
+      return res.status(500).send()
+    })
+
 })
 
 router.get('/:id', (req, res) => {

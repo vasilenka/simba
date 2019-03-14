@@ -29,7 +29,7 @@ module.exports =  async (event, bot) => {
               reply,
               "Proses pendaftaran akunmu belum selesai",
               "Mari kita mulai dengan perkenalan terlebih dahulu",
-              "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"
+              "Kirim pesan dengan format \nSETNAMA:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"
             ])
 
           } else {

@@ -50,6 +50,18 @@ const reportSchema = new mongoose.Schema({
     ],
     default: 'pending',
     lowercase: true,
+  },
+  yearCreated: {
+    type: Number,
+    default: new Date(Date.now()).getFullYear()
+  },
+  monthCreated: {
+    type: Number,
+    default: new Date(Date.now()).getMonth()
+  },
+  dayCreated: {
+    type: Number,
+    default: new Date(Date.now()).getDate()
   }
 })
 

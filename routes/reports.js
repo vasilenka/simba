@@ -28,6 +28,22 @@ router.get('/', (req, res) => {
 
 })
 
+router.get('/year/:year', (req, res) => {
+
+  let year = req.params.year
+
+  Report.find({yearCreated: year })
+    .populate(['reporter', 'dispatcher'])
+    .then(reports => {
+      res.status(200).send(reports)
+    })
+    .catch(err => {
+      console.log(err)
+      return res.status(500).send()
+    })
+
+})
+
 
 router.get('/:id', (req, res) => {
 

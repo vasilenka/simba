@@ -5,8 +5,8 @@
   "description": "Server for a line messenger bot",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "start": "NODE_ENV=production WEBHOSTNAME=https://vasilenka.github.io/simba-client/# node ./bin/www",
+    "dev": "WEBHOSTNAME=https://vasilenka.github.io/simba-client/# nodemon ./bin/www"
   },
   "dependencies": {
     "body-parser": "^1.18.3",

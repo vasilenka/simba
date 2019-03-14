@@ -6,4 +6,5 @@ module.exports = {
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
   },
   url: process.env.HOSTNAME,
+  webUrl: process.env.WEBHOSTNAME,
 }

@@ -1,3 +1,4 @@
 const client = require('socket.io-client')
+const config = require('./../config')
 
-module.exports = client('http://localhost:3000', { path: '/live'})
+module.exports = client(config.url)
