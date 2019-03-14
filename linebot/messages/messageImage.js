@@ -111,7 +111,7 @@ module.exports = (event, bot) => {
         if(user && user.registerProcess === 'pending') {
 
           if(!user.fullName) {
-            return event.reply(["Mohon ikuti petunjuk pendaftaran secara teratur", "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"])
+            return event.reply(["Mohon ikuti petunjuk pendaftaran secara teratur", "Kirim pesan dengan format \nSETNAMA:[spasi]NAMA_SESUAI_KTP", "misal, setnama: Ongki Herlambang"])
           }
 
           let dir = `public/images/users/${userId}`

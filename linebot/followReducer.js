@@ -29,7 +29,7 @@ module.exports =  async (event, bot) => {
               reply,
               "Proses pendaftaran akunmu belum selesai",
               "Mari kita mulai dengan perkenalan terlebih dahulu",
-              "Kirim pesan dengan format \nSETNAMA:[spasi]nama_sesuai_ktp", "misal, setnama: Ongki Herlambang"
+              "Kirim pesan dengan format \nSETNAMA:[spasi]NAMA_SESUAI_KTP", "misal, setnama: Ongki Herlambang"
             ])
 
           } else {
@@ -75,7 +75,7 @@ module.exports =  async (event, bot) => {
             reply,
             `Wilujeng ${user.name}, terima kasih telah menambahkan akun “Lapor Tasik” sebagai teman anda. Untuk dapat menggunakan layanan "Lapor Tasik" dengan baik, silahkan ikuti langkah pendaftaran berikut ini secara teratur`,
             "Mari kita mulai dengan perkenalan terlebih dahulu",
-            "Kirim pesan dengan format \nsetnama:[spasi]nama_sesuai_ktp",
+            "Kirim pesan dengan format \nSETNAMA:[spasi]NAMA_SESUAI_KTP",
             "misal, setnama: Ongki Herlambang"
           ])
 
