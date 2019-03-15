@@ -5,7 +5,7 @@ module.exports = (event, bot) => {
 
   let text
   if(event.message.text) {
-    text = event.message.text.toLowerCase().split(' ')[0]
+    text = event.message.text.toLowerCase().trim().split(' ')[0]
     console.log('TEXT: ', text)
   }
 
@@ -28,6 +28,8 @@ module.exports = (event, bot) => {
         case 'setgender:laki-laki': return
         case 'set:birthdate': return
         case 'setgender:perempuan': return
+
+        case '/feedback': return require('./messages/text/feedback')(event, bot)
 
         case 'lapor': return require('./messages/text/lapor')(event, bot)
         case 'help': return require('./messages/text/help')(event)
