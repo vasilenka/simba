@@ -73,7 +73,7 @@ module.exports =  async (event, bot) => {
           let reply = templateImage()
           return bot.push(user.lineId, [
             reply,
-            `Wilujeng ${user.name}, terima kasih telah menambahkan akun “Lapor Tasik” sebagai teman anda. Untuk dapat menggunakan layanan "Lapor Tasik" dengan baik, silahkan ikuti langkah pendaftaran berikut ini secara teratur`,
+            `Wilujeng sumping ${user.name}, terima kasih telah menambahkan akun “darurat!” sebagai teman anda. Untuk dapat menggunakan layanan "darurat!" dengan baik, silahkan ikuti langkah pendaftaran berikut ini secara teratur`,
             "Mari kita mulai dengan perkenalan terlebih dahulu",
             "Kirim pesan dengan format \nSETNAMA:[spasi]NAMA_SESUAI_KTP",
             "misal, setnama: Ongki Herlambang"
