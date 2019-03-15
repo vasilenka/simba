@@ -91,8 +91,11 @@ router.patch('/:id', async (req, res) => {
       }
 
       if(report.status === 'mission') {
-        let users = await User.find({ role: "fireman"})
+        let users = await User.find()
+        let firemans = await users.filter(user => user.role === 'fireman')
+        let firemanId = await firemans.map(user => user.lineId)
         let usersId = await users.map(user => user.lineId)
+
         let carousel = {
           "type": "flex",
           "altText": "New mission 🔥",
@@ -102,14 +105,26 @@ router.patch('/:id', async (req, res) => {
           }
         }
 
+        let broadcast = {
+          "type": "flex",
+          "altText": "Kebakaran 🔥",
+          "contents": {
+            "type": "carousel",
+            "contents": []
+          }
+        }
+
         let reportUrl = `${config.url}/reports/${report._id}`;
         let address = report.address
         let header = headerAction("NEW MISSION 🔥", address, reportUrl)
+        let headerAlt = headerAction("KEBAKARAN 🔥", address, reportUrl)
         carousel.contents.contents.push(header)
+        broadcast.contents.contents.push(headerAlt)
 
         let photosUrl = report.photos.map(photo => `${config.url}${photo}`)
         photosUrl.map(photo => {
           carousel.contents.contents.push(imageAction(photo))
+          broadcast.contents.contents.push(imageAction(photo))
         })
 
         let reportConfirm = confirmAction("Apakah kebakaran sudah berhasil diatasi?", report._id)
@@ -117,6 +132,7 @@ router.patch('/:id', async (req, res) => {
 
         bot.push(report.reporter.lineId, ["Laporan anda telah diproses. Petugas akan segera meluncur ke lokasi kebakaran."])
         bot.push(usersId, [carousel])
+        bot.push(firemanId, [carousel])
 
       } else if (report.status === 'invalid') {
 
