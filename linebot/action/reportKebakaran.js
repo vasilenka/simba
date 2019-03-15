@@ -2,7 +2,7 @@ const config = require('./../../config')
 
 module.exports = () => ({
   "type": "flex",
-  "altText": "Flex Message",
+  "altText": "Lapor kebakaran!",
   "contents": {
     "type": "bubble",
     "header": {

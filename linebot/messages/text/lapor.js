@@ -17,6 +17,7 @@ const chooseAlamatAction = require('./../../action/chooseAlamatAction')
 const chooseGenderAction = require('./../../action/chooseGenderAction')
 const calendarAction = require('./../../action/calendarAction')
 const templateImage = require('./../../action/templateImage')
+const reportGreetings = require('./../../action/reportGreetings')
 
 module.exports = async (event, bot) => {
   event.source.profile()
@@ -89,11 +90,13 @@ module.exports = async (event, bot) => {
         return report.save()
           .then(report => {
 
-            let replyNewReport = reportKebakaranAction()
-            replyNewReport.quickReply.items.push(cameraAction())
-            replyNewReport.quickReply.items.push(locationAction())
-            replyNewReport.quickReply.items.push(batalAction('Batalkan laporan', report._id))
-            return event.reply(replyNewReport)
+            let image = reportGreetings()
+            let reply = textTemplate("Silahkan pilih aksi dibawah ini untuk melengkapi data laporanmu 👇🏻")
+
+            reply.quickReply.items.push(cameraAction())
+            reply.quickReply.items.push(locationAction())
+            reply.quickReply.items.push(batalAction('Batalkan laporan', report._id))
+            return event.reply([image, "Kamu akan membuat laporan baru", reply])
 
           })
           .catch(err => {
