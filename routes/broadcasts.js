@@ -30,10 +30,12 @@ const upload = multer({ storage: storage })
 
 router.post('/', upload.array('broadcasts'),async (req, res) => {
 
-  let users = await User.find()
+  let receivers = JSON.parse(req.body.receivers).map(receiver => ({role: receiver}))
+
+  let users = await User.find({ $or: receivers })
   let usersId = await users.map(user => user.lineId)
 
-  let body = pick(req.body, ["title", "body", "lng", "lat", "address"])
+  let body = pick(req.body, ["title", "body", "lng", "lat", "address", "place"])
   let photos = req.files[0].filename
 
   let broadcast = new Broadcast({
@@ -43,6 +45,7 @@ router.post('/', upload.array('broadcasts'),async (req, res) => {
     address: body.address,
     latitude: body.lat,
     longitude: body.lng,
+    place: body.place
   })
 
   res.status(200).send()
@@ -107,7 +110,7 @@ router.post('/', upload.array('broadcasts'),async (req, res) => {
 
       let location = {
         "type": "location",
-        "title": message.title,
+        "title": message.place || message.title,
         "address": message.address,
         "latitude": Number(message.latitude),
         "longitude": Number(message.longitude)

@@ -15,6 +15,10 @@ const broadcastSchema = new mongoose.Schema({
   photos: [{
     type: String,
   }],
+  place: {
+    type: String,
+    default: null,
+  },
   address: {
     type: String,
     default: null,
