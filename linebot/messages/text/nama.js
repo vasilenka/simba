@@ -16,7 +16,7 @@ module.exports = async (event, bot) => {
 
       let user = await checkUser(incomingUser)
       let message = event.message.text.toLowerCase().trim().split(' ')
-      let name = pull(message, 'setnama:').join(' ')
+      let name = pull(message, 'nama:').join(' ')
 
       if(user) {
 

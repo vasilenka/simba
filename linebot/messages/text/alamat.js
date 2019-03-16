@@ -17,7 +17,7 @@ module.exports = async (event, bot) => {
 
       let user = await checkUser(incomingUser)
       let message = event.message.text.toLowerCase().trim().split(' ')
-      let address = pull(message, 'setalamat:').join(' ')
+      let address = pull(message, 'alamat:').join(' ')
 
       if(user) {
 
@@ -41,8 +41,8 @@ module.exports = async (event, bot) => {
               if(!user.fullName) {
                 return event.reply([
                   "Mohon ikuti petunjuk pendaftaran secara teratur",
-                  "Balas pesan dengan format \nSETNAMA:[spasi]NAMA_SESUAI_KTP",
-                  "misal, setnama: Ongki Herlambang"])
+                  "Balas pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP",
+                  "misal, nama: Ongki Herlambang"])
               }
 
               if(!user.longitude || !user.latitude) {

@@ -29,7 +29,7 @@ module.exports =  async (event, bot) => {
               reply,
               "Proses pendaftaran akunmu belum selesai",
               "Mari kita mulai dengan perkenalan terlebih dahulu",
-              "Kirim pesan dengan format \nSETNAMA:[spasi]NAMA_SESUAI_KTP", "misal, setnama: Ongki Herlambang"
+              "Kirim pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP", "misal, nama: Ongki Herlambang"
             ])
 
           } else {
@@ -75,8 +75,8 @@ module.exports =  async (event, bot) => {
             reply,
             `Wilujeng sumping ${user.name}, terima kasih telah menambahkan akun “darurat!” sebagai teman anda. Untuk dapat menggunakan layanan "darurat!" dengan baik, silahkan ikuti langkah pendaftaran berikut ini secara teratur`,
             "Mari kita mulai dengan perkenalan terlebih dahulu",
-            "Kirim pesan dengan format \nSETNAMA:[spasi]NAMA_SESUAI_KTP",
-            "misal, setnama: Ongki Herlambang"
+            "Kirim pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP",
+            "misal, nama: Ongki Herlambang"
           ])
 
         })

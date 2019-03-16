@@ -114,7 +114,7 @@ module.exports = async (event, bot) => {
             image,
             "Proses pendaftaran akunmu belum selesai",
             "Mari kita mulai dengan perkenalan terlebih dahulu",
-            "Kirim pesan dengan format \nSETNAMA:[spasi]NAMA_SESUAI_KTP", "misal, setnama: Ongki Herlambang"
+            "Kirim pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP", "misal, nama: Ongki Herlambang"
           ])
         }
 

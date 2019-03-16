@@ -59,7 +59,7 @@ module.exports = async (event, bot) => {
 
               let reply = templateImage()
 
-              return event.reply([reply, "Mari kita mulai dengan perkenalan terlebih dahulu", "Kirim pesan dengan format \nSETNAMA:[spasi]NAMA_SESUAI_KTP", "misal, setnama: Ongki Herlambang"])
+              return event.reply([reply, "Mari kita mulai dengan perkenalan terlebih dahulu", "Kirim pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP", "misal, nama: Ongki Herlambang"])
 
             })
             .catch(err => {

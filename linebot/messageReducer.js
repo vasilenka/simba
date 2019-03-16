@@ -20,8 +20,8 @@ module.exports = (event, bot) => {
         case 'daftar:update': return require('./messages/text/updateData')(event, bot)
         case 'daftar:selesai': return
 
-        case 'setnama:': return require('./messages/text/nama')(event, bot)
-        case 'setalamat:': return require('./messages/text/alamat')(event, bot)
+        case 'nama:': return require('./messages/text/nama')(event, bot)
+        case 'alamat:': return require('./messages/text/alamat')(event, bot)
         case 'gender:choose': return
         case 'choosealamat': return
         case 'chooseid': return

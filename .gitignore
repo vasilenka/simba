@@ -2,6 +2,7 @@
 dev.js
 public/images/reports/*
 public/images/users/*
+public/images/broadcasts/*
 .env
 .DS_Store
 
