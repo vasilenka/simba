@@ -30,27 +30,25 @@ const upload = multer({ storage: storage })
 
 router.post('/', upload.array('broadcasts'),async (req, res) => {
 
-  console.log('REQ: ', req.body)
-  console.log('FILES', req.files)
-
   let users = await User.find()
   let usersId = await users.map(user => user.lineId)
 
-  let body = pick(req.body, ["title", "body"])
+  let body = pick(req.body, ["title", "body", "lng", "lat", "address"])
   let photos = req.files[0].filename
 
   let broadcast = new Broadcast({
     title: body.title,
     body: body.body,
-    photos: `/images/broadcasts/${photos}`
+    photos: `/images/broadcasts/${photos}`,
+    address: body.address,
+    latitude: body.lat,
+    longitude: body.lng,
   })
 
   res.status(200).send()
 
   return broadcast.save()
     .then(message => {
-
-      console.log("URL: ", `${config.url}${message.photos[0]}`)
 
       let broadcastMessage = {
         "type": "flex",
@@ -107,14 +105,15 @@ router.post('/', upload.array('broadcasts'),async (req, res) => {
         }
       }
 
-      let image = {
-        "type": "image",
-        "originalContentUrl": `${config.url}${message.photos[0]}`,
-        "previewImageUrl": `${config.url}${message.photos[0]}`,
-        "animated": false
+      let location = {
+        "type": "location",
+        "title": message.title,
+        "address": message.address,
+        "latitude": Number(message.latitude),
+        "longitude": Number(message.longitude)
       }
 
-      bot.push(usersId, [broadcastMessage])
+      bot.push(usersId, [broadcastMessage, location])
 
     })
     .catch(err => console.log(err))

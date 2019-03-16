@@ -15,6 +15,18 @@ const broadcastSchema = new mongoose.Schema({
   photos: [{
     type: String,
   }],
+  address: {
+    type: String,
+    default: null,
+  },
+  longitude: {
+    type: String,
+    default: null,
+  },
+  latitude: {
+    type: String,
+    default: null,
+  },
   yearCreated: {
     type: Number,
     default: new Date(Date.now()).getFullYear()
