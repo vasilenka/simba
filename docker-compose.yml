@@ -5,6 +5,7 @@ services:
     container_name: simba-mongo
     image: mongo
     env_file: .env
+    restart: always
     networks:
       - simbanet
     ports:
@@ -12,10 +13,27 @@ services:
     volumes:
       - ./data:/data/db
 
+  adminmongo:
+    container_name: simba-mongo-manager
+    image: 'mongo-express'
+    env_file: .env
+    environment:
+      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+      - ME_CONFIG_MONGODB_SERVER=${MONGO_HOST}
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - '5001:5001'
+    networks:
+      - simbanet
+
   app:
     container_name: simba-app
     restart: always
     env_file: .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     build: .
     ports:
       - '5000:5000'

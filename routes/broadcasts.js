@@ -52,6 +52,61 @@ router.post('/', upload.array('broadcasts'),async (req, res) => {
 
       console.log("URL: ", `${config.url}${message.photos[0]}`)
 
+      let broadcastMessage = {
+        "type": "flex",
+        "altText": message.title,
+        "contents": {
+          "type": "bubble",
+          "direction": "ltr",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": message.title,
+                "margin": "none",
+                "size": "lg",
+                "align": "start",
+                "weight": "bold",
+                "color": "#272727",
+                "wrap": true
+              }
+            ]
+          },
+          "hero": {
+            "type": "image",
+            "url": `${config.url}${message.photos[0]}`,
+            "margin": "none",
+            "align": "center",
+            "size": "full",
+            "aspectRatio": "4:3",
+            "aspectMode": "cover",
+            "action": {
+              "type": "uri",
+              "label": "Preview image",
+              "uri": `${config.url}${message.photos[0]}`
+            }
+          },
+          "body": {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": message.body,
+                "wrap": true,
+              }
+            ]
+          },
+          "styles": {
+            "body": {
+              "backgroundColor": "#FFFFFF"
+            }
+          }
+        }
+      }
+
       let image = {
         "type": "image",
         "originalContentUrl": `${config.url}${message.photos[0]}`,
@@ -59,7 +114,7 @@ router.post('/', upload.array('broadcasts'),async (req, res) => {
         "animated": false
       }
 
-      bot.push(usersId, [message.title, image, message.body])
+      bot.push(usersId, [broadcastMessage])
 
     })
     .catch(err => console.log(err))
