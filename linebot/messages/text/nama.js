@@ -10,13 +10,19 @@ const chooseIdAction = require('../../action/chooseIdAction')
 const chooseAlamatAction = require('../../action/chooseAlamatAction')
 const selesaiDaftar = require('./../../action/selesaiDaftar')
 
-module.exports = async (event, bot) => {
+module.exports = async (event, bot, text) => {
   event.source.profile()
     .then(async incomingUser => {
 
       let user = await checkUser(incomingUser)
-      let message = event.message.text.toLowerCase().trim().split(' ')
-      let name = pull(message, 'nama:').join(' ')
+      let name
+      if(!text) {
+        let message = event.message.text.toLowerCase().trim().split(' ')
+        name = pull(message, 'nama:').join(' ')
+      } else {
+        name = text
+      }
+
 
       if(user) {
 

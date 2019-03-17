@@ -7,6 +7,7 @@ const chooseIdAction = require('./action/chooseIdAction')
 const chooseAlamatAction = require('./action/chooseAlamatAction')
 const chooseGenderAction = require('./action/chooseGenderAction')
 const calendarAction = require('./action/calendarAction')
+const templateFormat = require('./action/templateFormat')
 
 module.exports =  async (event, bot) => {
 
@@ -25,11 +26,13 @@ module.exports =  async (event, bot) => {
           if(!user.fullName) {
 
             let reply = templateImage()
+            let format = templateFormat("Kirim pesan dengan format", "NAMA:NAMA_SESUAI_KTP")
             return bot.push(user.lineId, [
               reply,
               "Proses pendaftaran akunmu belum selesai",
               "Mari kita mulai dengan perkenalan terlebih dahulu",
-              "Kirim pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP", "misal, nama: Ongki Herlambang"
+              format,
+              "misal, nama:Ongki Herlambang"
             ])
 
           } else {
@@ -71,12 +74,13 @@ module.exports =  async (event, bot) => {
           }
 
           let reply = templateImage()
+          let format = templateFormat("Kirim pesan dengan format", "NAMA:NAMA_SESUAI_KTP")
           return bot.push(user.lineId, [
             reply,
             `Wilujeng sumping ${user.name}, terima kasih telah menambahkan akun “darurat!” sebagai teman anda. Untuk dapat menggunakan layanan "darurat!" dengan baik, silahkan ikuti langkah pendaftaran berikut ini secara teratur`,
             "Mari kita mulai dengan perkenalan terlebih dahulu",
-            "Kirim pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP",
-            "misal, nama: Ongki Herlambang"
+            format,
+            "misal, nama:Ongki Herlambang"
           ])
 
         })

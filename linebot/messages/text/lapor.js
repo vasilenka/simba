@@ -110,11 +110,13 @@ module.exports = async (event, bot) => {
 
         if(!user.fullName) {
           let image = templateImage()
+          let format = templateFormat("Kirim pesan dengan format", "NAMA:NAMA_SESUAI_KTP")
           return event.reply([
             image,
             "Proses pendaftaran akunmu belum selesai",
             "Mari kita mulai dengan perkenalan terlebih dahulu",
-            "Kirim pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP", "misal, nama: Ongki Herlambang"
+            format,
+            "misal, nama:Ongki Herlambang"
           ])
         }
 

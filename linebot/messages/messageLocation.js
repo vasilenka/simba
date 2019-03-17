@@ -91,8 +91,8 @@ module.exports = async (event, bot) => {
 
           return event.reply([
             "Mohon ikuti petunjuk pendaftaran secara teratur",
-            "Balas pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP",
-            "misal, nama: Ongki Herlambang"])
+            "Balas pesan dengan format \n\nNAMA:NAMA_SESUAI_KTP\n",
+            "misal, nama:Ongki Herlambang"])
 
         } else {
 

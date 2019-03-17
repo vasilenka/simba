@@ -9,6 +9,7 @@ const selesaiDaftar = require('./../../action/selesaiDaftar')
 
 const textTemplate = require('./../../action/textTemplate')
 const templateImage = require('./../../action/templateImage')
+const templateFormat = require('./../../action/templateFormat')
 
 module.exports = async (event, bot) => {
   event.source.profile()
@@ -58,8 +59,9 @@ module.exports = async (event, bot) => {
               }
 
               let reply = templateImage()
+              let format = templateFormat("Kirim pesan dengan format", "NAMA:NAMA_SESUAI_KTP")
 
-              return event.reply([reply, "Mari kita mulai dengan perkenalan terlebih dahulu", "Kirim pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP", "misal, nama: Ongki Herlambang"])
+              return event.reply([reply, "Mari kita mulai dengan perkenalan terlebih dahulu", format, "misal, nama:Ongki Herlambang"])
 
             })
             .catch(err => {

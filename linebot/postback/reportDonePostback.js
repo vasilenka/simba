@@ -12,7 +12,7 @@ const io = require('./../../services/socketClient')
 
 module.exports = async (data, event, bot) => {
 
-  let users = await User.find({ role: "volunteer" })
+  let users = await User.find({$or: [{ role: "volunteer" }, { role: "dispatcher" }] })
   let usersId = users.map(user => user.lineId)
 
   let id = data.reportId
@@ -31,7 +31,7 @@ module.exports = async (data, event, bot) => {
 
     let carousel = {
       "type": "flex",
-      "altText": "Summary laporanmu",
+      "altText": "Rangkuman laporanmu",
       "contents": {
         "type": "carousel",
         "contents": []
@@ -47,13 +47,13 @@ module.exports = async (data, event, bot) => {
       }
     }
 
-    let reportType = report.status === "active" ? "active" : report.status === "missions" ? "missions" : "completed"
-
+    let reportType = report.status === "active" ? "active" : report.status === "mission" ? "missions" : "completed"
     let reportUrl = `${config.webUrl}/${reportType}/${report._id}`;
     let address = report.address
     let header = headerAction("KEBAKARAN 🔥", address, reportUrl)
+    let headerAlt = headerAction("LAPORAN BARU 🔥", address, reportUrl)
     carousel.contents.contents.push(header)
-    carouselPush.contents.contents.push(header)
+    carouselPush.contents.contents.push(headerAlt)
 
     let photosUrl = report.photos.map(photo => `${config.url}${photo}`)
     photosUrl.map(photo => {
@@ -67,8 +67,9 @@ module.exports = async (data, event, bot) => {
     event.reply(["Terima kasih, laporan anda akan segera kami proses", carousel])
 
     io.emit('new_report', await User.populate(report, { path: 'reporter' }))
-    usersId = remove(usersId, [report.reporter])
-    return bot.push(usersId, [carouselPush])
+
+    let receiversId = remove(usersId, n => n !== report.reporter.lineId)
+    return bot.push(receiversId, [carouselPush])
 
   }
 

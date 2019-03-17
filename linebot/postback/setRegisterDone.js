@@ -23,7 +23,7 @@ module.exports = async (data, event, bot) => {
 
           bot.push(adminLineId, ["New user registered. Please verify immediately!"])
           return event.reply([
-            "Selamat akunmu berhasil didaftarkan 🎉", "Kamu sekarang bisa mengirim pesan \'Lapor Tasik\' untuk membuat laporan kebakaran, atau kirim \'help\' untuk bantuan"
+            "Selamat! pendaftaran berhasil 🎉", "Kamu bisa mengirim pesan \'Lapor Tasik\' untuk membuat laporan kebakaran, atau kirim \'help\' untuk bantuan"
           ])
 
         })

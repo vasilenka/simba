@@ -1,8 +1,10 @@
 const reportStillPending = require('../action/reportStillPending')
 const locationAction = require('../action/locationAction')
+const templateFormat = require('../action/templateFormat')
 
 module.exports = async (data, event, bot) => {
 
-  return event.reply(["Kirim pesan dengan format: \nALAMAT:[spasi]ALAMAT_ANDA \nuntuk menyimpan alamatmu", "misalnya \nalamat: Jl. Cipaheut No.6, Bandung"])
+  let format = templateFormat("Untuk tambahkan alamat, kirim pesan dengan format", "ALAMAT:ALAMAT_ANDA")
+  return event.reply([format, "misalnya \nalamat:Jl. Cipaheut No.6, Bandung"])
 
 }

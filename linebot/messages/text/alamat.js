@@ -11,13 +11,19 @@ const chooseAlamatAction = require('./../../action/chooseAlamatAction')
 const chooseGenderAction = require('./../../action/chooseGenderAction')
 const calendarAction = require('./../../action/calendarAction')
 
-module.exports = async (event, bot) => {
+module.exports = async (event, bot, text) => {
   event.source.profile()
     .then(async incomingUser => {
 
       let user = await checkUser(incomingUser)
-      let message = event.message.text.toLowerCase().trim().split(' ')
-      let address = pull(message, 'alamat:').join(' ')
+
+      let address
+      if(!text) {
+        let message = event.message.text.toLowerCase().trim().split(' ')
+        address = pull(message, 'alamat:').join(' ')
+      } else {
+        address = text
+      }
 
       if(user) {
 
@@ -41,7 +47,7 @@ module.exports = async (event, bot) => {
               if(!user.fullName) {
                 return event.reply([
                   "Mohon ikuti petunjuk pendaftaran secara teratur",
-                  "Balas pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP",
+                  "Balas pesan dengan format \n\nNAMA:NAMA_SESUAI_KTP\n",
                   "misal, nama: Ongki Herlambang"])
               }
 

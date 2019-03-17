@@ -1,3 +1,6 @@
+const pull = require('lodash.pull')
+const remove = require('lodash.remove')
+
 const Report = require('./../../../models/Report')
 
 const exceedLimit = require('./../../../helper/exceedLimit')
@@ -15,8 +18,9 @@ const chooseAlamatAction = require('./../../action/chooseAlamatAction')
 const chooseGenderAction = require('./../../action/chooseGenderAction')
 const calendarAction = require('./../../action/calendarAction')
 const templateImage = require('./../../action/templateImage')
+const templateFormat = require('./../../action/templateFormat')
 
-module.exports = (text, event, bot) => {
+module.exports = (text, event, bot, processedText) => {
   event.source.profile()
     .then(async incomingUser => {
 
@@ -108,16 +112,46 @@ module.exports = (text, event, bot) => {
 
         if(user.registerProcess === 'pending') {
 
+          let textArray = processedText.trim().split(':')
+          let newText = textArray[0]
+
           if(!user.fullName) {
 
+            if(newText+':' === 'nama:') {
+              let cleanText = remove(textArray, n => n !== newText)
+              let fullText = remove(text.toLowerCase().trim().split(' '), n => n !== processedText)
+              fullText.unshift(cleanText[0])
+              let name = fullText.join(' ')
+              return require('./../../messages/text/nama')(event, bot, name)
+            }
+
             let image = templateImage()
+            let format = templateFormat("Kirim pesan dengan format", "NAMA:NAMA_SESUAI_KTP")
             return event.reply([
               image,
               "Proses pendaftaran akunmu belum selesai",
               "Mari kita mulai dengan perkenalan terlebih dahulu",
-              "Kirim pesan dengan format \nNAMA:[spasi]NAMA_SESUAI_KTP",
-              "misal, nama: Ongki Herlambang"])
+              format,
+              "misal, nama:Ongki Herlambang"])
 
+          } else {
+
+            if(newText+':' === 'nama:') {
+              let cleanText = remove(textArray, n => n !== newText)
+              let fullText = remove(text.toLowerCase().trim().split(' '), n => n !== processedText)
+              fullText.unshift(cleanText[0])
+              let name = fullText.join(' ')
+              return require('./../../messages/text/nama')(event, bot, name)
+            }
+
+          }
+
+          if(newText+':' === 'alamat:') {
+            let cleanText = remove(textArray, n => n !== newText)
+            let fullText = remove(text.toLowerCase().trim().split(' '), n => n !== processedText)
+            fullText.unshift(cleanText[0])
+            let alamat = fullText.join(' ')
+            return require('./../../messages/text/alamat')(event, bot, alamat)
           }
 
           let reply = textTemplate("Silahkan pilih salah satu tombol dibawah ini untuk melanjutkan proses pendaftaran akun")

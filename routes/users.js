@@ -69,7 +69,6 @@ router.get('/:id', (req, res) => {
 router.patch('/:id', async (req, res) => {
 
   let id = req.params.id
-  console.log(req.body)
   let body = pick(req.body, ['requestRole', 'role'])
 
   if(!ObjectId.isValid(id)) {

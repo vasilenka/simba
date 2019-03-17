@@ -1,10 +1,26 @@
 const mongoose = require('mongoose')
 const timestamps = require('mongoose-timestamp')
+const bcrypt = require('bcryptjs')
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+  },
+  lineId: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    trim: true,
+    index: true,
+    unique: true,
+    sparse: true
+  },
+  password: {
+    type: String,
+    minlength: 6
   },
   fullName: {
     type: String,
@@ -38,9 +54,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
-  password: {
-    type: String,
-  },
   profileUrl: {
     type: String,
     default: null,
@@ -48,10 +61,6 @@ const userSchema = new mongoose.Schema({
   active: {
     type: Boolean,
     default: true,
-  },
-  lineId: {
-    type: String,
-    required: true,
   },
   requestRole: {
     role: {
@@ -123,6 +132,17 @@ const userSchema = new mongoose.Schema({
     type: Number,
     default: new Date(Date.now()).getDate()
   }
+})
+
+userSchema.pre('save', async function(next) {
+
+  let user = this
+  if(user.isModified("password")) {
+    user.password = await bcrypt.hash(user.password, 8)
+  }
+
+  next()
+
 })
 
 // TODO: MUST CHECK TIME CREATED ON REGISTERED ACCOUNT

@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
+
 const pick = require('lodash.pick')
+const remove = require('lodash.remove')
 
 const config = require('./../config')
 
@@ -69,7 +70,6 @@ router.patch('/:id', async (req, res) => {
 
   let id = req.params.id
   let body = pick(req.body, ['dispatcher', 'status'])
-
   let report = await Report.findById(id)
 
   if(!report) {
@@ -94,7 +94,7 @@ router.patch('/:id', async (req, res) => {
         let users = await User.find()
         let firemans = await users.filter(user => user.role === 'fireman')
         let firemanId = await firemans.map(user => user.lineId)
-        let usersId = await users.map(user => user.lineId)
+        let usersId = await remove(users.map(user => user.lineId), firemanId)
 
         let carousel = {
           "type": "flex",
@@ -114,10 +114,11 @@ router.patch('/:id', async (req, res) => {
           }
         }
 
-        let reportUrl = `${config.url}/reports/${report._id}`;
+        let reportType = report.status === "active" ? "active" : report.status === "mission" ? "missions" : "completed"
+        let reportUrl = `${config.webUrl}/${reportType}/${report._id}`;
         let address = report.address
         let header = headerAction("NEW MISSION 🔥", address, reportUrl)
-        let headerAlt = headerAction("KEBAKARAN 🔥", address, reportUrl)
+        let headerAlt = headerAction("BERITA KEBAKARAN 🔥", address, reportUrl)
         carousel.contents.contents.push(header)
         broadcast.contents.contents.push(headerAlt)
 
@@ -131,7 +132,8 @@ router.patch('/:id', async (req, res) => {
         carousel.contents.contents.push(reportConfirm)
 
         bot.push(report.reporter.lineId, ["Laporan anda telah diproses. Petugas akan segera meluncur ke lokasi kebakaran."])
-        bot.push(usersId, [carousel])
+
+        bot.push(usersId, [broadcast])
         bot.push(firemanId, [carousel])
 
       } else if (report.status === 'invalid') {
