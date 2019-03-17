@@ -5,6 +5,8 @@ public/images/users/*
 public/images/broadcasts/*
 .env
 .DS_Store
+data
+data/*
 
 # Logs
 logs
