@@ -19,6 +19,7 @@ services:
     env_file: .env
     volumes:
       - .:/usr/src/app
+      - ./uploads:/user/src/app/public/images
       - /usr/src/app/node_modules
     build: .
     ports:
