@@ -46,4 +46,5 @@ const broadcastSchema = new mongoose.Schema({
 })
 
 broadcastSchema.plugin(timestamps)
-module.exports = mongoose.model('Broadcast', broadcastSchema)
+const Broadcast = mongoose.model('Broadcast', broadcastSchema)
+module.exports = Broadcast

@@ -8,13 +8,18 @@ const pick = require('lodash.pick')
 
 const bot = require('./../services/linebot')
 
+const auth = require('./../middlewares/authentication')
+
 const User = require('./../models/User')
 const Report = require('./../models/Report')
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 
   User.find()
-    .then(users => res.status(200).json(users))
+    .then(users => {
+      let publicUsers = users.map(user => user.getPublicProfile())
+      res.status(200).json(publicUsers)
+    })
     .catch(err => {
       console.log(err)
       return res.status(500).send()
@@ -22,10 +27,19 @@ router.get('/', (req, res) => {
 
 })
 
-router.get('/reports/:id', (req, res) => {
+router.get('/profile/:id', auth, async(req, res) => {
+  let id = req.params.id
+  User.findById(id)
+    .then(user => res.status(200).json(user))
+    .catch(err => {
+      console.log(err)
+      res.status(500).send()
+    })
+})
+
+router.get('/reports/:id', async (req, res) => {
 
   let id = req.params.id
-
   Report.find({reporter: id})
     .populate('reporter')
     .then(reports => res.status(200).json(reports))
@@ -33,6 +47,17 @@ router.get('/reports/:id', (req, res) => {
       console.log(err)
       return res.status(500).send()
     })
+
+    // TODO: AUTH PROPERLY IMPLEMENTED
+    // try {
+    //   let reports = await Report.find({ reporter: id })
+    //   await User.populate(reports, {path: 'reporter', model: 'User', select: ['name', 'fullName'] })
+    //   res.status(200).json(reports)
+    // } catch (err) {
+    //   console.log(err)
+    //   return res.status(500).send()
+    // }
+
 })
 
 router.get('/year/:year', (req, res) => {

@@ -65,5 +65,16 @@ const reportSchema = new mongoose.Schema({
   }
 })
 
+// reportSchema.methods.getPublicProfile = function() {
+//   let report = this
+
+//   if(report.reporter) {
+
+//   }
+
+// }
+
 reportSchema.plugin(timestamps)
-module.exports = mongoose.model('Report', reportSchema)
+const Report = mongoose.model('Report', reportSchema)
+
+module.exports = Report

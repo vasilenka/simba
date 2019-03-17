@@ -45,8 +45,8 @@ module.exports = (event, bot) =>
 
                   return event.reply([
                     "Password berhasil ditambahkan ke akunmu!",
+                    format,
                     "Untuk menjaga kerahasiaan passwordmu, jangan lupa untuk menghapus pesan password",
-                    format
                   ])
 
                 })

@@ -36,7 +36,8 @@ const connection = async () => {
       }
     } catch (err) {
       console.log('======================================')
-      console.log(`Reconnecting to ${mongoUrl} in 2 seconds...`)
+      // console.log(`Reconnecting to ${mongoUrl} in 2 seconds...`)
+      console.log(`Reconnecting to DATABASE in 2 seconds...`)
       console.log('======================================')
       await sleep(2000)
       maxReconnect -= 1

@@ -2,6 +2,8 @@ const remove = require('lodash.remove')
 const validator = require('validator')
 const config = require('./../../../config')
 
+const User = require('./../../../models/User')
+
 const checkUser = require('./../../../helper/checkUser')
 const validateRegistrationData = require('./../../../helper/validateRegistrationData')
 const validateUser = require('./../../../helper/validateUser')
@@ -23,10 +25,15 @@ module.exports = (event, bot) =>
 
       if(user) {
         if(validUser) {
-          if(user.role === 'fireman' || user.role === 'dispatcher') {
+          if(user.role === 'dispatcher') {
 
             if(!validator.isEmail(text)) {
               return event.reply([`Email ${text} tidak valid`, "Silahkan ulangi perintah anda"])
+            }
+
+            let existingUser = await User.findOne({email: text})
+            if(existingUser && existingUser._id !== user._id) {
+              return event.reply(["Gagal mengatur email anda, email sudah terdaftar di akun lain"])
             }
 
             user.email = text
@@ -44,8 +51,8 @@ module.exports = (event, bot) =>
 
           } else {
             return event.reply([
-              "Perintah ini hanya tersedia untuk admin dan fireman",
-              "Jika kamu seorang admin(dispatcher) atau fireman, kirim pesan \'dispatcher\' atau \'fireman\' untuk mengganti akses akun anda"
+              "Perintah ini hanya tersedia untuk admin(dispatcher)",
+              "Jika kamu seorang admin(dispatcher) atau fireman, kirim pesan \'dispatcher\' untuk mengganti akses akun anda"
             ])
           }
         }

@@ -7,5 +7,5 @@ module.exports = {
   },
   url: process.env.HOSTNAME,
   webUrl: process.env.WEBHOSTNAME,
-  feedbackAccount: "U0cfc840fea2ab38a2fda5b3f2a4624d7"
+  feedbackAccount: "U0cfc840fea2ab38a2fda5b3f2a4624d7",
 }

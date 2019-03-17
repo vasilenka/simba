@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+require('dotenv').config()
 
 const bot = require('./services/linebot')
 const linebotParser = bot.parser()
@@ -27,5 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/auth', require('./routes/auth'))
 require('./routes/__index')(app)
+
+console.log("HOSTNAME: ", process.env.MONGO_HOST)
 
 module.exports = app

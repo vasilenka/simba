@@ -1,6 +1,9 @@
 const mongoose = require('mongoose')
 const timestamps = require('mongoose-timestamp')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+const config = require('./../config')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -131,8 +134,71 @@ const userSchema = new mongoose.Schema({
   dayCreated: {
     type: Number,
     default: new Date(Date.now()).getDate()
-  }
+  },
+  tokens: [{
+    token: {
+      type: String,
+      required: true,
+    }
+  }]
 })
+
+userSchema.methods.toJSON = function () {
+
+  let user = this
+  let userObject = user.toObject()
+
+  delete userObject.password
+  delete userObject.tokens
+
+  return userObject
+
+}
+
+userSchema.methods.getPublicProfile = function() {
+
+  let user = this
+  let userObject = user.toObject()
+
+  // delete userObject.email
+  delete userObject.password
+  delete userObject.tokens
+  delete userObject.address
+  delete userObject.idUrl
+  delete userObject.longitude
+  delete userObject.latitude
+  delete userObject.gender
+  delete userObject.birthDate
+
+  return userObject
+
+}
+
+userSchema.methods.generateAuthToken = async function() {
+
+  let user = this
+  let token = jwt.sign({ _id: user._id.toString() }, process.env.SECRET_TOKEN)
+  user.tokens = user.tokens.concat({ token })
+  await user.save()
+
+  return token
+
+}
+
+userSchema.statics.findByCredential = async (email, password) => {
+
+  let user = await User.findOne({ email })
+  if(!user) {
+    throw new Error('Unable to login')
+  }
+
+  let isMatch = await bcrypt.compare(password, user.password)
+  if(!isMatch) {
+    throw new Error('Unable to login')
+  }
+  return user
+
+}
 
 userSchema.pre('save', async function(next) {
 
@@ -140,7 +206,6 @@ userSchema.pre('save', async function(next) {
   if(user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8)
   }
-
   next()
 
 })
@@ -148,4 +213,5 @@ userSchema.pre('save', async function(next) {
 // TODO: MUST CHECK TIME CREATED ON REGISTERED ACCOUNT
 
 userSchema.plugin(timestamps)
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema)
+module.exports = User
