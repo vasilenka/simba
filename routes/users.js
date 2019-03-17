@@ -111,4 +111,16 @@ router.patch('/:id', async (req, res) => {
 
 })
 
+router.delete('/:id', async (req, res) => {
+
+  let id = req.params.id
+  User.deleteOne({ _id: id })
+    .then(user => res.status(200).json(user))
+    .catch(err => {
+      console.log(err)
+      return res.status(500).send()
+    })
+
+})
+
 module.exports = router
