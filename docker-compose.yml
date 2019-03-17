@@ -13,19 +13,19 @@ services:
     volumes:
       - ./data:/data/db
 
-  adminmongo:
-    container_name: simba-mongo-manager
-    image: 'mongo-express'
-    env_file: .env
-    environment:
-      - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
-      - ME_CONFIG_MONGODB_SERVER=${MONGO_HOST}
-      - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-    ports:
-      - '5001:5001'
-    networks:
-      - simbanet
+  # adminmongo:
+  #   container_name: simba-mongo-manager
+  #   image: 'mongo-express'
+  #   env_file: .env
+  #   environment:
+  #     - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+  #     - ME_CONFIG_MONGODB_SERVER=${MONGO_HOST}
+  #     - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+  #     - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+  #   ports:
+  #     - '5001:5001'
+  #   networks:
+  #     - simbanet
 
   app:
     container_name: simba-app
