@@ -149,7 +149,7 @@ userSchema.methods.toJSON = function () {
   let userObject = user.toObject()
 
   delete userObject.password
-  delete userObject.tokens
+  // delete userObject.tokens
 
   return userObject
 
@@ -162,7 +162,7 @@ userSchema.methods.getPublicProfile = function() {
 
   // delete userObject.email
   delete userObject.password
-  delete userObject.tokens
+  // delete userObject.tokens
   delete userObject.address
   delete userObject.idUrl
   delete userObject.longitude

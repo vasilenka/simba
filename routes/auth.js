@@ -29,7 +29,16 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.post('/logout', auth, async(req, res) => {
+router.post('/me', auth, async (req, res) => {
+  let user = req.user
+  let token = req.token
+  if(!user) {
+    res.status(400).send()
+  }
+  return res.status(200).json({user, token})
+})
+
+router.post('/logout', auth, async (req, res) => {
   try {
     let user = req.user
     console.log("USER: ", user)
