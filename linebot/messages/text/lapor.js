@@ -17,6 +17,7 @@ const chooseAlamatAction = require('./../../action/chooseAlamatAction')
 const chooseGenderAction = require('./../../action/chooseGenderAction')
 const calendarAction = require('./../../action/calendarAction')
 const templateImage = require('./../../action/templateImage')
+const templateFormat = require('./../../action/templateFormat')
 const reportGreetings = require('./../../action/reportGreetings')
 
 module.exports = async (event, bot) => {

@@ -192,7 +192,7 @@ module.exports = async (event, bot) => {
                       "text": "approve:dispatcher",
                       "data": `{
                         "action": "approveDispatcher",
-                        "userId": ${updatedUser._id},
+                        "userId": "${updatedUser._id}"
                       }`
                     },
                     "margin": "none",
@@ -206,7 +206,7 @@ module.exports = async (event, bot) => {
                       "text": "deny:dispatcher",
                       "data": `{
                         "action": "denyDispatcher",
-                        "userId": ${updatedUser._id},
+                        "userId": "${updatedUser._id}"
                       }`
                     },
                     "margin": "md",
@@ -215,6 +215,8 @@ module.exports = async (event, bot) => {
                 ]
               }
             }
+
+            console.log('CONFIRM', confirmMessage)
 
             carousel.contents.contents.push(headerMessage)
             carousel.contents.contents.push(addressMessage)
