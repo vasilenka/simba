@@ -117,8 +117,8 @@ router.patch('/:id', async (req, res) => {
       user.requestRole = {role: null, status: null}
       bot.push(user.lineId, [`Selamat, kamu sekarang seorang ${user.role}`])
     } else if(body.requestRole.status === 'declined') {
+      bot.push(user.lineId, [`Permintaan kamu untuk menjadi seorang ${user.requestRole.role} ditolak oleh admin`])
       user.requestRole = {role: null, status: null}
-      bot.push(user.lineId, [`Permintaan kamu untuk menjadi seorang ${user.requestRole} ditolak oleh admin`])
     }
   } else {
     if(body.role !== user.role) {

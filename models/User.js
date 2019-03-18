@@ -163,12 +163,12 @@ userSchema.methods.getPublicProfile = function() {
   // delete userObject.email
   delete userObject.password
   // delete userObject.tokens
-  delete userObject.address
-  delete userObject.idUrl
-  delete userObject.longitude
-  delete userObject.latitude
-  delete userObject.gender
-  delete userObject.birthDate
+  // delete userObject.address
+  // delete userObject.idUrl
+  // delete userObject.longitude
+  // delete userObject.latitude
+  // delete userObject.gender
+  // delete userObject.birthDate
 
   return userObject
 

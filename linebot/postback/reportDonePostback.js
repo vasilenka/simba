@@ -48,7 +48,7 @@ module.exports = async (data, event, bot) => {
     }
 
     let reportType = report.status === "active" ? "active" : report.status === "mission" ? "missions" : "completed"
-    let reportUrl = `${config.webUrl}/${reportType}/${report._id}`;
+    let reportUrl = `${config.webUrl}/${reportType}/${report._id}`
     let address = report.address
     let header = headerAction("KEBAKARAN 🔥", address, reportUrl)
     let headerAlt = headerAction("LAPORAN BARU 🔥", address, reportUrl)

@@ -8,6 +8,9 @@ const setIdPhoto = require('./postback/setIdPhoto')
 const setRegisterDone = require('./postback/setRegisterDone')
 const chooseAlamat = require('./postback/chooseAlamat')
 
+const approveDispatcher = require('./postback/approveDispatcher')
+const denyDispatcher = require('./postback/denyDispatcher')
+
 module.exports = async (event, bot) => {
 
   let data = JSON.parse(event.postback.data)
@@ -21,6 +24,9 @@ module.exports = async (event, bot) => {
     case 'chooseAlamat': return chooseAlamat(data, event, bot)
     case 'chooseId': return setIdPhoto(data, event, bot)
     case 'registerDone': return setRegisterDone(data, event, bot)
+
+    case 'approveDispatcher': return approveDispatcher(data, event, bot)
+    case 'denyDispatcher': return denyDispatcher(data, event, bot)
 
     case 'reportDone': return reportDonePostback(data, event, bot)
     case 'reportCancel': return reportCancelPostback(data, event, bot)

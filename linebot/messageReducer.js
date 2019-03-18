@@ -40,6 +40,8 @@ module.exports = (event, bot) => {
         case 'fireman': return require('./messages/text/requestFireman')(event, bot)
         case 'dispatcher': return require('./messages/text/requestDispatcher')(event, bot)
         case 'laporan:kirim': return
+        case 'approve:dispatcher': return
+        case 'deny:dispatcher': return
         case 'selesai': return
         case 'laporan:batal': return
 
