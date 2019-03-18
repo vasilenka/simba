@@ -20,8 +20,8 @@ module.exports = async (data, event, bot) => {
       user.role = 'dispatcher'
       user.requestRole = {role: null, status: null}
       await user.save()
-      let formatEmail = templateFormat("Untuk mengatur email akunmu", "/email[spasi]contoh@email.com")
-      let formatPassword = templateFormat("Untuk mengatur password akunmu", "/email[spasi]password_akunmu")
+      let formatEmail = templateFormat("Untuk mengatur email akunmu", "EMAIL:[spasi]contoh@email.com")
+      let formatPassword = templateFormat("Untuk mengatur password akunmu", "PWD:[spasi]password_akunmu")
 
       bot.push(user.lineId, [
         `Selamat, kamu sekarang seorang ${user.role}`,

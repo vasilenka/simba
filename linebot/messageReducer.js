@@ -29,10 +29,10 @@ module.exports = (event, bot) => {
         case 'set:birthdate': return
         case 'setgender:perempuan': return
 
-        case '/feedback': return require('./messages/text/feedback')(event, bot)
-        case '/email': return require('./messages/text/email')(event, bot)
-        case '/pwd': return require('./messages/text/password')(event, bot)
-        case '/pwd': return require('./messages/text/changePassword')(event, bot)
+        case 'feedback:': return require('./messages/text/feedback')(event, bot)
+        case 'email:': return require('./messages/text/email')(event, bot)
+        case 'pwd:': return require('./messages/text/password')(event, bot)
+        case 'lupapassword': return require('./messages/text/forgot')(event, bot)
 
         case 'lapor': return require('./messages/text/lapor')(event, bot)
         case 'help': return require('./messages/text/help')(event)

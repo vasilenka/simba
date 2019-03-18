@@ -21,7 +21,7 @@ module.exports = (event, bot) =>
 
       let user = await checkUser(incomingUser)
       let validUser = validateUser(user, event, bot)
-      let text = remove(event.message.text.toLowerCase().trim().split(' '), n => n !== '/email').join(' ')
+      let text = remove(event.message.text.toLowerCase().trim().split(' '), n => n !== 'email:').join(' ')
 
       if(user) {
         if(validUser) {

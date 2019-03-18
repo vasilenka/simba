@@ -216,8 +216,6 @@ module.exports = async (event, bot) => {
               }
             }
 
-            console.log('CONFIRM', confirmMessage)
-
             carousel.contents.contents.push(headerMessage)
             carousel.contents.contents.push(addressMessage)
 

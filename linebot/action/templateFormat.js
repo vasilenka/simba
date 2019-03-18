@@ -25,8 +25,8 @@ module.exports = (text, format) => ({
         {
           "type": "text",
           "text": format,
-          "margin": "sm",
-          "size": "sm",
+          "margin": "md",
+          "size": "md",
           "weight": "bold",
           "wrap": true
         }

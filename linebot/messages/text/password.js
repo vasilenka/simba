@@ -22,11 +22,11 @@ module.exports = (event, bot) =>
 
       let user = await checkUser(incomingUser)
       let validUser = validateUser(user, event, bot)
-      let text = remove(event.message.text.toLowerCase().trim().split(' '), n => n !== '/pwd').join(' ')
+      let text = remove(event.message.text.toLowerCase().trim().split(' '), n => n !== 'pwd:').join(' ')
 
       if(user) {
         if(validUser) {
-          if(user.role === 'fireman' || user.role === 'dispatcher') {
+          if(user.role === 'dispatcher') {
 
             if(!validator.isLength(text, {min: 6, max: undefined})) {
               return event.reply([`Password kamu tidak boleh kurang dari 6 karakter`, "Silahkan ulangi perintah anda"])
@@ -41,11 +41,11 @@ module.exports = (event, bot) =>
                     return Promise.reject()
                   }
 
-                  let format = templateFormat("Jika anda lupa password, cukup dengan mengirim pesan untuk mengganti password dengan format", "/PWD[spasi]PASSWORD_ANDA")
+                  // let format = templateFormat()
 
                   return event.reply([
                     "Password berhasil ditambahkan ke akunmu!",
-                    format,
+                    "Jika anda lupa password, kirim pesan LUPAPASSWORD",
                     "Untuk menjaga kerahasiaan passwordmu, jangan lupa untuk menghapus pesan password",
                   ])
 
@@ -57,7 +57,7 @@ module.exports = (event, bot) =>
             }
           } else {
             return event.reply([
-              "Perintah ini hanya tersedia untuk admin dan fireman",
+              "Perintah ini hanya tersedia untuk admin(dispatcher)",
               "Jika kamu seorang admin(dispatcher) atau fireman, kirim pesan \'dispatcher\' atau \'fireman\' untuk mengganti akses akun anda"
             ])
           }

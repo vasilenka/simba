@@ -27,7 +27,7 @@ module.exports = async (event, bot) => {
       let user = await checkUser(incomingUser)
       let validUser = validateUser(user, event, bot)
 
-      if(user && validUser) {
+      if(user && validUser && user.registerProcess !== 'pending') {
 
         let report
         try {
