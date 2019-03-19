@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production WEBHOSTNAME=https://vasilenka.github.io/simba-client/# nodemon ./bin/www",
-    "dev": "NODE_ENV=development WEBHOSTNAME=https://vasilenka.github.io/simba-client/# node_modules/.bin/nodemon ./bin/www"
+    "dev": "NODE_ENV=development WEBHOSTNAME=http://localhost:3000/# node_modules/.bin/nodemon ./bin/www"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
