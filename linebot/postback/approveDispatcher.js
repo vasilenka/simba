@@ -2,8 +2,6 @@ const config = require('./../../config')
 
 const User = require('./../../models/User')
 
-const templateFormat = require('../action/templateFormat')
-
 module.exports = async (data, event, bot) => {
 
   let id = data.userId
@@ -38,8 +36,6 @@ module.exports = async (data, event, bot) => {
           "text": "Silahkan atur akun admin anda melalui link berikut"
         }
       }
-
-      console.log("Setup: ", setupAccount)
 
       bot.push(user.lineId, [
         `Selamat, kamu sekarang seorang ${user.role}`,
