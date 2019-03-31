@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+
 const config = require('./../../config')
 
 const User = require('./../../models/User')
@@ -28,7 +30,7 @@ module.exports = async (data, event, bot) => {
             {
               "type": "uri",
               "label": "PENGATURAN AKUN",
-              "uri": `${config.webUrl}/auth/:userid`
+              "uri": `${config.webUrl}/setup?token=${jwt.sign({ _id: user._id.toString() }, process.env.SECRET_TOKEN, { expiresIn: '1h' })}`
             }
           ],
           "thumbnailImageUrl": `${config.url}/images/icons/mail.jpg`,

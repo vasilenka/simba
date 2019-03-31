@@ -9,6 +9,7 @@ const io = require('../services/socketClient')
 const bot = require('../services/linebot')
 
 const auth = require('./../middlewares/authentication')
+const verifyResetToken = require('./../middlewares/verifyResetToken')
 
 router.post('/', async (req, res) => {
   try {
@@ -39,6 +40,12 @@ router.post('/logout', auth, async (req, res) => {
   } catch (err) {
     res.status(500).send()
   }
+})
+
+router.post('/verifyMe', verifyResetToken, async (req, res) => {
+  let user = req.user
+  let token = req.token
+  res.status(200).json(user)
 })
 
 module.exports = router
