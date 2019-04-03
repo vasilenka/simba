@@ -11,7 +11,7 @@ const bot = require('../services/linebot')
 const auth = require('./../middlewares/authentication')
 const verifyResetToken = require('./../middlewares/verifyResetToken')
 
-router.post('/', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     let user = await User.findByCredential(req.body.email, req.body.password)
     let token = await user.generateAuthToken()
@@ -44,8 +44,27 @@ router.post('/logout', auth, async (req, res) => {
 
 router.post('/verifyMe', verifyResetToken, async (req, res) => {
   let user = req.user
-  let token = req.token
   res.status(200).json(user)
+})
+
+router.post('/', async (req, res) => {
+  let id = req.body.id
+
+  try {
+    let user = await User.findById(id)
+    user.email = email
+    user.password = password
+    let token = await user.generateAuthToken()
+    user.save()
+      .then(usr => res.status(200).json({usr, token}))
+      .catch(err => {
+        console.log(err)
+        return res.status(500).json()
+      })
+  } catch (err) {
+    console.log(err)
+    res.status(400).send()
+  }
 })
 
 module.exports = router
