@@ -35,10 +35,10 @@ module.exports = (event, bot) => {
         case 'lupapassword': return require('./messages/text/forgot')(event, bot)
 
         case 'lapor': return require('./messages/text/lapor')(event, bot)
-        case 'help': return require('./messages/text/help')(event)
-        case 'volunteer': return require('./messages/text/requestVolunteer')(event, bot)
-        case 'fireman': return require('./messages/text/requestFireman')(event, bot)
-        case 'dispatcher': return require('./messages/text/requestDispatcher')(event, bot)
+        case 'bantuan': return require('./messages/text/help')(event)
+        case 'relawan': return require('./messages/text/requestVolunteer')(event, bot)
+        case 'petugas': return require('./messages/text/requestFireman')(event, bot)
+        case 'admin': return require('./messages/text/requestDispatcher')(event, bot)
         case 'laporan:kirim': return
         case 'approve:dispatcher': return
         case 'deny:dispatcher': return

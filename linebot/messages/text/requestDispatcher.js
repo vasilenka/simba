@@ -237,7 +237,7 @@ module.exports = async (event, bot) => {
           }
         } else {
 
-          event.reply(["Haloo, dispatcher 👋🏻"])
+          event.reply(["Haloo, admin 👋🏻"])
 
         }
 

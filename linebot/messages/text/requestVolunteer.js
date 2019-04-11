@@ -31,7 +31,7 @@ module.exports = async (event, bot) => {
           }
         } else {
 
-          event.reply(["Haloo, volunteer 👋🏻"])
+          event.reply(["Haloo, relawan 👋🏻"])
 
         }
 

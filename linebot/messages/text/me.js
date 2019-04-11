@@ -10,8 +10,24 @@ module.exports = event => {
         return Promise.reject()
       }
 
+      let role;
+      switch (user.role) {
+        case 'volunteer':
+          role = 'relawan'
+          break
+        case 'fireman':
+          role = 'petugas'
+          break
+        case 'dispatcher':
+          role = 'admin'
+          break
+        default:
+          role = 'pelapor'
+          break
+      }
+
       return event.reply([
-        `Halo, ${user.name} 👋🏻, kamu adalah seorang ${user.role}`
+        `Halo, ${user.name} 👋🏻, kamu adalah seorang ${role}`
       ])
 
     })
